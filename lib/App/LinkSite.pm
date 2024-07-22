@@ -1,6 +1,6 @@
 use Feature::Compat::Class;
 
-class Links::App {
+class App::LinkSite {
   use strict;
   use warnings;
   use feature qw[say signatures];
@@ -13,21 +13,21 @@ class Links::App {
   use File::Basename;
   use FindBin '$Bin';
 
-  use Links;
-  use Links::Link;
-  use Links::Social;
+  use App::LinkSite::Site;
+  use App::LinkSite::Link;
+  use App::LinkSite::Social;
 
   field $src  = 'src';
   field $out  = 'docs';
   field $ga4;
   field $font_awesome_kit;
-  field $link_object;
+  field $site;
 
   method src { return $src }
   method out { return $out }
   method ga4 { return $ga4 }
   method font_awesome_kit { return $font_awesome_kit }
-  method link_object { return $link_object }
+  method site { return $site }
 
   field $tt;
 
@@ -49,12 +49,12 @@ class Links::App {
 
     my $socials = [ map {
       $_->{handle} //= $data->{handle};
-      Links::Social->new(%$_)
+      App::LinkSite::Social->new(%$_)
     } $data->{social}->@* ];
 
-    my $links = [ map { Links::Link->new(%$_) } $data->{links}->@* ];
+    my $links = [ map { App::LinkSite::Link->new(%$_) } $data->{links}->@* ];
 
-    $link_object = Links->new(
+    $site = App::LinkSite::Site->new(
       name    => $data->{name},
       handle  => $data->{handle},
       image   => $data->{image},
@@ -75,7 +75,7 @@ class Links::App {
 
     if (/\.tt$/) {
       debug("Process $path to", basename($path, '.tt'));
-      $tt->process($path, { data => $self->link_object }, basename($path, '.tt'))
+      $tt->process($path, { site => $self->site }, basename($path, '.tt'))
         or die $tt->error;
     } else {
       if (-d) {
@@ -91,7 +91,7 @@ class Links::App {
   }
 
   sub debug {
-    warn "@_\n" if $ENV{LINKS_DEBUG};
+    warn "@_\n" if $ENV{LINKSITE_DEBUG};
   }
 }
 

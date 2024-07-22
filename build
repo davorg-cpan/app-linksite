@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Links::App;
+use App::LinkSite;
 
-Links::App->new->run;
+App::LinkSite->new->run;
 

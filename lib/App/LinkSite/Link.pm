@@ -1,6 +1,6 @@
 use Feature::Compat::Class;
 
-class Links::Link {
+class App::LinkSite::Link {
   use strict;
   use warnings;
   no warnings 'experimental::class';

@@ -1,6 +1,6 @@
 use Feature::Compat::Class;
 
-class Links::Social {
+class App::LinkSite::Social {
   use strict;
   use warnings;
   use feature qw[say signatures];

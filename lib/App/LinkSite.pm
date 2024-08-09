@@ -39,8 +39,8 @@ class App::LinkSite {
     $font_awesome_kit = $data->{font_awesome_kit} // '';
 
     $tt = Template->new({
-      INCLUDE_PATH => "$Bin/$src",
-      OUTPUT_PATH  => "$Bin/$out",
+      INCLUDE_PATH => "$Bin/../$src",
+      OUTPUT_PATH  => "$Bin/../$out",
       VARIABLES    => {
         ga4            => $ga4,
         font_awesome_kit => $font_awesome_kit,
@@ -80,10 +80,10 @@ class App::LinkSite {
     } else {
       if (-d) {
         debug("Make directory $path");
-        path("$Bin/$out/$path")->mkdir;
+        path("$Bin/../$out/$path")->mkdir;
       } elsif (-f) {
         debug("Copy $path");
-        path("$Bin/$src/$path")->copy("$Bin/$out/$path");
+        path("$Bin/../$src/$path")->copy("$Bin/../$out/$path");
       } else {
         debug("Confused by $File::Find::name");
       }

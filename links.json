@@ -25,7 +25,7 @@
     "service": "reddit"
   }, {
     "service": "mastodon",
-    "url": "https://mastodon.social/@davorg"
+    "url": "https://fosstodon.org/@davorg"
   }, {
     "service": "threads"
   }, {

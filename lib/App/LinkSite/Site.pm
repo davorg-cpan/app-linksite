@@ -3,7 +3,7 @@ use Feature::Compat::Class;
 class App::LinkSite::Site {
   use strict;
   use warnings;
-  no if $] >= 5.038 'warnings', 'experimental::class';
+  no if $] >= 5.038, 'warnings', 'experimental::class';
 
   use JSON;
 

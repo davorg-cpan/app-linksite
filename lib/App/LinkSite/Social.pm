@@ -8,7 +8,7 @@ class App::LinkSite::Social {
 
   field $service :param;
   field $handle :param;
-  field $url :param; # P4e3f
+  field $url :param;
 
   # TODO: This needs to be a class field.
   field $urls = {
@@ -78,10 +78,10 @@ class App::LinkSite::Social {
 
   method service { return $service }
   method handle { return $handle }
-  method url { return $url } # P4e3f
+  method url { return $url }
 
   method mk_social_link {
-    my $url = $self->url; # P3dc4
+    my $url = $self->url;
 
     if (!$url) { # P3dc4
       if (exists $urls->{$service}) {

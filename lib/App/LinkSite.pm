@@ -36,7 +36,7 @@ class App::LinkSite {
     my $json = path('links.json')->slurp;
     my $data = JSON->new->decode($json);
 
-    debug np $data;
+    debug(np $data);
 
     $ga4 = $data->{ga4} // '';
     $font_awesome_kit = $data->{font_awesome_kit} // '';

@@ -67,6 +67,7 @@ class App::LinkSite {
   }
 
   method run {
+    debug("src is: $src");
     find( sub { $self->do_this }, $src);
   }
 

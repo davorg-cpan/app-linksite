@@ -8,7 +8,7 @@ class App::LinkSite::Social {
 
   field $service :param;
   field $handle :param;
-  field $url :param;
+  field $url :param = undef;
 
   # TODO: This needs to be a class field.
   field $urls = {
@@ -81,31 +81,33 @@ class App::LinkSite::Social {
   method url { return $url }
 
   method mk_social_link {
-    my $url = $self->url;
+    return $url if $url;
 
-    if (!$url) { # P3dc4
-      if (exists $urls->{$service}) {
-        $url = $urls->{$service}{url};
-      } else {
-        warn('Unknown social service: ', $service);
-        return;
-      }
+    my $social_url;
 
-      if ($url =~ /XXXX/) {
-        $url =~ s/XXXX/$handle/g;
-      } else {
-        $url .= $handle;
-      }
+    if (exists $urls->{$service}) {
+      $social_url = $urls->{$service}{url};
+    } else {
+      warn('Unknown social service: ', $service);
+      return;
     }
 
-    return $url;
+    if ($social_url =~ /XXXX/) {
+      $social_url =~ s/XXXX/$handle/g;
+    } else {
+      $social_url .= $handle;
+    }
+
+    return $social_url;
+  }
+
+  method social_icon_template {
+    return q[<a title='%s' href='%s'><i class='fa-brands fa-3x fa-%s'></i></a>];
   }
 
   method mk_social_icon {
-    my $link = $self->mk_social_link();
-
-    return q[<a title='] . $urls->{$self->service}{name} .
-      qq[' href='$link'><i class='fa-brands fa-3x fa-] . $self->service . q['></i></a>];
+    return sprintf $self->social_icon_template,
+      $urls->{$service}{name}, $self->mk_social_link(), $service;
   }
 }
 

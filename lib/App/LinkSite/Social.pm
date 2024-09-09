@@ -8,6 +8,7 @@ class App::LinkSite::Social {
 
   field $service :param;
   field $handle :param;
+  field $url :param; # P4e3f
 
   # TODO: This needs to be a class field.
   field $urls = {
@@ -77,21 +78,24 @@ class App::LinkSite::Social {
 
   method service { return $service }
   method handle { return $handle }
+  method url { return $url } # P4e3f
 
   method mk_social_link {
-    my $url;
+    my $url = $self->url; # P3dc4
 
-    if (exists $urls->{$service}) {
-      $url = $urls->{$service}{url};
-    } else {
-      warn('Unknown social service: ', $service);
-      return;
-    }
+    if (!$url) { # P3dc4
+      if (exists $urls->{$service}) {
+        $url = $urls->{$service}{url};
+      } else {
+        warn('Unknown social service: ', $service);
+        return;
+      }
 
-    if ($url =~ /XXXX/) {
-      $url =~ s/XXXX/$handle/g;
-    } else {
-      $url .= $handle;
+      if ($url =~ /XXXX/) {
+        $url =~ s/XXXX/$handle/g;
+      } else {
+        $url .= $handle;
+      }
     }
 
     return $url;

@@ -4,7 +4,7 @@ class App::LinkSite {
   use strict;
   use warnings;
   use feature qw[say signatures];
-  no warnings qw[experimental::signatures experimental::class];
+  no if $] > = 5.038 'warnings', qw[experimental::signatures experimental::class];
 
   use Template;
   use JSON;

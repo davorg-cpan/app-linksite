@@ -3,7 +3,7 @@ use Feature::Compat::Class;
 class App::LinkSite::Link {
   use strict;
   use warnings;
-  no warnings 'experimental::class';
+  no if $] >= 5.038, 'warnings', 'experimental::class';
 
   field $title :param;
   field $subtitle :param = '';

@@ -11,7 +11,7 @@ WriteMakefile(
         'JSON' => 0,
         'Template' => 0,
         'JSON' => 0,
-        'Path::Tiny' => 0.
+        'Path::Tiny' => 0,
         'File::Find' => 0,
         'File::Basename' => 0,
         'FindBin' => 0,

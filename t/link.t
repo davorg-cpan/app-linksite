@@ -8,7 +8,7 @@ my $link = App::LinkSite::Link->new(
     title    => 'Test Title',
     subtitle => 'Test Subtitle',
     link     => 'http://example.com',
-    new_link => 1,
+    new      => 1,
 );
 isa_ok($link, 'App::LinkSite::Link', 'Created an App::LinkSite::Link object');
 

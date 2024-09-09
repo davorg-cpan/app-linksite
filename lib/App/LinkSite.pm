@@ -12,6 +12,7 @@ class App::LinkSite {
   use File::Find;
   use File::Basename;
   use FindBin '$Bin';
+  use Data::Printer;
 
   use App::LinkSite::Site;
   use App::LinkSite::Link;
@@ -34,6 +35,8 @@ class App::LinkSite {
   ADJUST {
     my $json = path('links.json')->slurp;
     my $data = JSON->new->decode($json);
+
+    debug np $data;
 
     $ga4 = $data->{ga4} // '';
     $font_awesome_kit = $data->{font_awesome_kit} // '';

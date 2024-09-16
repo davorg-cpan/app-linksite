@@ -48,7 +48,7 @@ class App::LinkSite {
       # Output in the data directory
       OUTPUT_PATH  => $out,
       VARIABLES    => {
-        ga4            => $ga4,
+        ga4              => $ga4,
         font_awesome_kit => $font_awesome_kit,
       }
     });
@@ -77,6 +77,16 @@ class App::LinkSite {
     debug("out is: $out");
     path($out)->mkdir;
     find( { wanted => sub { $self->do_this }, no_chdir => 1 }, $src);
+
+    if ($site->image or $site->og_image) {
+      debug("Copy images");
+      path('./img')->copy("$out/img");
+    }
+
+    if (-f './CNAME') {
+      debug("Copy CNAME");
+      path('./CNAME')->copy("$out/CNAME");
+    }
   }
 
   method do_this {

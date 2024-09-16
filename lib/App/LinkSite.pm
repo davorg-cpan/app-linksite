@@ -18,11 +18,12 @@ class App::LinkSite {
   use App::LinkSite::Link;
   use App::LinkSite::Social;
 
-  field $src  = 'src';
-  field $out  = 'docs';
-  field $ga4;
-  field $font_awesome_kit;
-  field $site;
+  field $file :param = 'links.json';
+  field $src :param = 'src';
+  field $out :param = 'docs';
+  field $ga4 :param = undef;
+  field $font_awesome_kit :param = undef;
+  field $site :param = undef;
 
   method src { return $src }
   method out { return $out }
@@ -33,7 +34,7 @@ class App::LinkSite {
   field $tt;
 
   ADJUST {
-    my $json = path('links.json')->slurp;
+    my $json = path($file)->slurp;
     my $data = JSON->new->decode($json);
 
     debug(np $data);
@@ -42,8 +43,10 @@ class App::LinkSite {
     $font_awesome_kit = $data->{font_awesome_kit} // '';
 
     $tt = Template->new({
+      # Templates in the CPAN distro directory
       INCLUDE_PATH => "$Bin/../$src",
-      OUTPUT_PATH  => "$Bin/../$out",
+      # Output in the data directory
+      OUTPUT_PATH  => $out,
       VARIABLES    => {
         ga4            => $ga4,
         font_awesome_kit => $font_awesome_kit,
@@ -71,10 +74,17 @@ class App::LinkSite {
 
   method run {
     debug("src is: $src");
-    find( sub { $self->do_this }, $src);
+    debug("out is: $out");
+    path($out)->mkdir;
+    find( { wanted => sub { $self->do_this }, no_chdir => 1 }, $src);
   }
 
   method do_this {
+    if ($File::Find::name eq $src or $File::Find::name eq "$src/") {
+      debug("Skipping $File::Find::name");
+      return;
+    }
+
     my $path = $File::Find::name =~ s|^$src/||r;
 
     if (/\.tt$/) {
@@ -84,10 +94,10 @@ class App::LinkSite {
     } else {
       if (-d) {
         debug("Make directory $path");
-        path("$Bin/../$out/$path")->mkdir;
+        path("$out/$path")->mkdir;
       } elsif (-f) {
         debug("Copy $path");
-        path("$Bin/../$src/$path")->copy("$Bin/../$out/$path");
+        path("$src/$path")->copy("$out/$path");
       } else {
         debug("Confused by $File::Find::name");
       }

@@ -4,7 +4,7 @@ use Test::More tests => 3;
 use App::LinkSite;
 
 # Test the creation of an App::LinkSite object
-my $linksite = App::LinkSite->new();
+my $linksite = App::LinkSite->new(file => 't/links.json');
 isa_ok($linksite, 'App::LinkSite', 'Created an App::LinkSite object');
 
 # Test the src method

@@ -12,7 +12,7 @@ can also use.
   Note that this is just an example. You should create your own version of this and store it in a separate repo - see [github.com/davorg/links](https://github.com/davorg/links) for the input that builds my [link site](https://links.davecross.co.uk/).
 * [index.html.tt](https://github.com/davorg-cpan/app-linksite/blob/main/src/index.html.tt) defines how the web page looks
 * [linksite](https://github.com/davorg-cpan/app-linksite/blob/main/bin/linksite) is the command-line program that actually turns the JSON into a web page
-* [build.yml](https://github.com/davorg-cpan/app-linksite/blob/main/examples/build.yml) is a sample GitHub Actions workflow file that you can use as a basis to build your own site automatically
+* [build.yml](https://github.com/davorg-cpan/app-linksite/blob/main/example/build.yml) is a sample GitHub Actions workflow file that you can use as a basis to build your own site automatically
 
 ## Demo
 

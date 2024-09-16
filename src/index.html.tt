@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang-"en">
+<html lang="en">
   <head>
-    <meta property="og:title" content="[% site.name %] / @[% site.handle %]" />
-    <meta property="og:type" content="website" />
+    <meta property="og:title" content="[% site.name %] / @[% site.handle %]">
+    <meta property="og:type" content="website">
 [% IF site.desc -%]
-    <meta property="og:description" content="[% og.desc %]" />
+    <meta property="og:description" content='[% site.desc.replace("\n", ' ') %]'>
 [% END -%]
 [% IF site.og_image -%]
-    <meta property="og:image" content="[% site.site_url %]img/[% site.og_image %]" />
+    <meta property="og:image" content="[% site.site_url %]img/[% site.og_image %]">
 [% END -%]
-    <meta property="og:url" content="[% site.site_url %]" />
+    <meta property="og:url" content="[% site.site_url %]">
 [% IF ga4 -%]
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXQ2SWP9P"></script>
@@ -43,12 +43,12 @@
     <div class="container-fluid text-center">
       <header>
 [% IF site.image -%]
-        <div id="img"><img src="/img/[% site.image %]"></div>
+        <div id="img"><img src="/img/[% site.image %]" alt="[% site.name %] / @[% site.handle %]"></div>
 [% END -%]
         <div id="name">
           <h1>[% site.name %] / @[% site.handle %]</h1>
         </div>
-        <div id="desc">[% site.desc %]</div>
+        <div id="desc">[% site.desc.replace("\n", '<br>') %]</div>
       </header>
       <div id="social">
         <h2>Social</h2>

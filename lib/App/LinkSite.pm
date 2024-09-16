@@ -19,7 +19,7 @@ class App::LinkSite {
   use App::LinkSite::Social;
 
   field $file :param = 'links.json';
-  field $src :param = 'src';
+  field $src :param = "$Bin/../src";
   field $out :param = 'docs';
   field $ga4 :param = undef;
   field $font_awesome_kit :param = undef;
@@ -44,7 +44,7 @@ class App::LinkSite {
 
     $tt = Template->new({
       # Templates in the CPAN distro directory
-      INCLUDE_PATH => "$Bin/../$src",
+      INCLUDE_PATH => $src,
       # Output in the data directory
       OUTPUT_PATH  => $out,
       VARIABLES    => {

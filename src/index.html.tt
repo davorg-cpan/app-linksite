@@ -3,7 +3,12 @@
   <head>
     <meta property="og:title" content="[% site.name %] / @[% site.handle %]" />
     <meta property="og:type" content="website" />
+[% IF site.desc -%]
+    <meta property="og:description" content="[% og.desc %]" />
+[% END -%]
+[% IF site.og_image -%]
     <meta property="og:image" content="[% site.site_url %]img/[% site.og_image %]" />
+[% END -%]
     <meta property="og:url" content="[% site.site_url %]" />
 [% IF ga4 -%]
     <!-- Google tag (gtag.js) -->
@@ -18,7 +23,9 @@
 [% END -%]
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+[% IF site.font_awesome_kit -%]
     <script src="https://kit.fontawesome.com/[% font_awesome_kit %].js" crossorigin="anonymous"></script>
+[% END -%]
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet"
@@ -35,7 +42,9 @@
   <body>
     <div class="container-fluid text-center">
       <header>
+[% IF site.image -%]
         <div id="img"><img src="/img/[% site.image %]"></div>
+[% END -%]
         <div id="name">
           <h1>[% site.name %] / @[% site.handle %]</h1>
         </div>

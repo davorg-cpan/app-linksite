@@ -1,4 +1,7 @@
 use ExtUtils::MakeMaker;
+use File::ShareDir::Install;
+
+install_share 'src';
 
 WriteMakefile(
     NAME         => 'App::LinkSite',

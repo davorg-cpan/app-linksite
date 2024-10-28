@@ -6,9 +6,9 @@ class App::LinkSite::Social {
   use feature qw[say signatures];
   no if $] >= 5.038, 'warnings', qw[experimental::signatures experimental::class];
 
-  field $service :param;
-  field $handle :param;
-  field $url :param = undef;
+  field $service :reader :param;
+  field $handle :reader :param;
+  field $url :reader :param = undef;
 
   # TODO: This needs to be a class field.
   field $urls = {
@@ -75,10 +75,6 @@ class App::LinkSite::Social {
       name => 'last.fm',
     },
   };
-
-  method service { return $service }
-  method handle { return $handle }
-  method url { return $url }
 
   method mk_social_link {
     return $url if $url;

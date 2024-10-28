@@ -13,23 +13,23 @@ class App::LinkSite {
   use File::Basename;
   use FindBin '$Bin';
   use Data::Printer;
+  use File::ShareDir;
 
   use App::LinkSite::Site;
   use App::LinkSite::Link;
   use App::LinkSite::Social;
 
-  field $file :param = 'links.json';
-  field $src :param = "$Bin/../src";
-  field $out :param = 'docs';
-  field $ga4 :param = undef;
-  field $font_awesome_kit :param = undef;
-  field $site :param = undef;
-
-  method src { return $src }
-  method out { return $out }
-  method ga4 { return $ga4 }
-  method font_awesome_kit { return $font_awesome_kit }
-  method site { return $site }
+  field $file :reader :param = 'links.json';
+  # Where to look for the templates.
+  # If we've been installed from CPAN, then File::Share::dist_name
+  # gives us the correct directory. Otherwise, just look in the local
+  # src directory. Note that dist_name() dies if the directory is not
+  # found - hence the use of eval.
+  field $src :reader :param = eval { dist_dir("App-LinkSite") } || "$Bin/../src";
+  field $out :reader :param = 'docs';
+  field $ga4 :reader :param = undef;
+  field $font_awesome_kit :reader :param = undef;
+  field $site :reader :param = undef;
 
   field $tt;
 
@@ -79,8 +79,12 @@ class App::LinkSite {
     find( { wanted => sub { $self->do_this }, no_chdir => 1 }, $src);
 
     if ($site->image or $site->og_image) {
+      path("$out/img")->mkdir;
       debug("Copy images");
-      path('./img')->copy("$out/img");
+      for my $img ($site->image, $site->og_image) {
+        next unless $img;
+        path("img/$img")->copy("$out/img");
+      }
     }
 
     if (-f './CNAME') {

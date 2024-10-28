@@ -21,11 +21,8 @@ class App::LinkSite::Site {
   method og_image { return $og_image }
   method site_url { return $site_url }
 
-  field $socials :param = [];
-  field $links :param = [];
-
-  method socials { return $socials }
-  method links { return $links }
+  field $socials :reader :param = [];
+  field $links :reader :param = [];
 
   method json_ld {
     my $json = {

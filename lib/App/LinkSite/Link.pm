@@ -5,15 +5,10 @@ class App::LinkSite::Link {
   use warnings;
   no if $] >= 5.038, 'warnings', 'experimental::class';
 
-  field $title :param;
-  field $subtitle :param = '';
-  field $link :param;
-  field $new_link :param(new) = 0;
-
-  method title { return $title }
-  method subtitle { return $subtitle }
-  method link { return $link }
-  method is_new { return $new_link }
+  field $title :reader :param;
+  field $subtitle :reader :param = '';
+  field $link :reader :param;
+  field $new_link :reader(is_new) :param(new) = 0;
 
   method mk_link {
     my $a_tag = q[<a href="] . $self->link . q[" class="text-decoration-none">] . $self->title . q[</a>];

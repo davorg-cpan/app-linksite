@@ -1,3 +1,17 @@
+=head1 NAME
+
+App::LinkSite::Site
+
+=head1 SYNOPIS
+
+(You probably want to just look at the L<linksite> application.)
+
+=head1 DESCRIPTION
+
+A class to model a link site (part of App::LinkSite).
+
+=cut
+
 use Feature::Compat::Class;
 
 class App::LinkSite::Site {
@@ -14,15 +28,16 @@ class App::LinkSite::Site {
   field $og_image :param;
   field $site_url :param;
 
-  method name { return $name }
-  method handle { return $handle }
-  method image { return $image }
-  method desc { return $desc }
-  method og_image { return $og_image }
-  method site_url { return $site_url }
-
   field $socials :reader :param = [];
   field $links :reader :param = [];
+
+=head1 METHODS
+
+=head2 json_ld
+
+Returns a JSON/LD fragment for this web site.
+
+=cut
 
   method json_ld {
     my $json = {
@@ -39,3 +54,16 @@ class App::LinkSite::Site {
 }
 
 1;
+
+=head1 AUTHOR
+
+Dave Cross <dave@davecross.co.uk>
+
+=head1 COPYRIGHT AND LICENCE
+
+Copyright (c) 2024, Magnum Solutions Ltd. All Rights Reserved.
+
+This library is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
+=cut

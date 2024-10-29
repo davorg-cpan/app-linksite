@@ -1,3 +1,17 @@
+=head1 NAME
+
+App::LinkSite
+
+=head1 SYNOPIS
+
+(You probably want to just look at the L<linksite> application.)
+
+=head1 DESCRIPTION
+
+The main driver class for App::LinkSite.
+
+=cut
+
 use Feature::Compat::Class;
 
 class App::LinkSite {
@@ -72,6 +86,14 @@ class App::LinkSite {
     );
   }
 
+=head1 METHODS
+
+=head2 run
+
+The main driver method for the process.
+
+=cut
+
   method run {
     debug("src is: $src");
     debug("out is: $out");
@@ -92,6 +114,12 @@ class App::LinkSite {
       path('./CNAME')->copy("$out/CNAME");
     }
   }
+
+=head2 do_this
+
+A method is called for each file that is found in the `src` directory.
+
+=cut
 
   method do_this {
     if ($File::Find::name eq $src or $File::Find::name eq "$src/") {
@@ -118,9 +146,30 @@ class App::LinkSite {
     }
   }
 
+=head2 debug
+
+Debug output. Set `LINKSITE_DEBUG` to a true value to turn this on.
+
+    export LINKSITE_DEBUG=1
+
+=cut
+
   sub debug {
     warn "@_\n" if $ENV{LINKSITE_DEBUG};
   }
 }
+
+=head1 AUTHOR
+
+Dave Cross <dave@davecross.co.uk>
+
+=head1 COPYRIGHT AND LICENCE
+
+Copyright (c) 2024, Magnum Solutions Ltd. All Rights Reserved.
+
+This library is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
+=cut
 
 1;

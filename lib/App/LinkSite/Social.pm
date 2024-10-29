@@ -1,3 +1,17 @@
+=head1 NAME
+
+App::LinkSite::Social
+
+=head1 SYNOPIS
+
+(You probably want to just look at the L<linksite> application.)
+
+=head1 DESCRIPTION
+
+A class to model a social link on a link site (part of App::LinkSite).
+
+=cut
+
 use Feature::Compat::Class;
 
 class App::LinkSite::Social {
@@ -76,6 +90,15 @@ class App::LinkSite::Social {
     },
   };
 
+=head1 METHODS
+
+=head2 mk_social_link
+
+Return a fragment of HTML that is used to represent this social media link
+on the link site.
+
+=cut
+
   method mk_social_link {
     return $url if $url;
 
@@ -97,14 +120,60 @@ class App::LinkSite::Social {
     return $social_url;
   }
 
+
+=head2 social_icon_template
+
+Return a string that is used to produce the HTML that displays the social
+icon and link on the link site. The template string will expect three
+substitution values:
+
+=over 4
+
+=item *
+
+The title for the link (probably the `name` from the `$urls` field)
+
+=item *
+
+The link for the social account (as built by `mk_social_link()`)
+
+=item *
+
+The name of the social media site's icon as represented in Font Awesome
+(probably a key from the `$urls` field).
+
+=back
+
+=cut
+
   method social_icon_template {
     return q[<a title='%s' href='%s'><i class='fa-brands fa-3x fa-%s'></i></a>];
   }
+
+=head2 mk_social_icon
+
+Returns a fragment of HTML that will be used to display the social media
+account on the web site.
+
+=cut
 
   method mk_social_icon {
     return sprintf $self->social_icon_template,
       $urls->{$service}{name}, $self->mk_social_link(), $service;
   }
 }
+
+=head1 AUTHOR
+
+Dave Cross <dave@davecross.co.uk>
+
+=head1 COPYRIGHT AND LICENCE
+
+Copyright (c) 2024, Magnum Solutions Ltd. All Rights Reserved.
+
+This library is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
+=cut
 
 1;

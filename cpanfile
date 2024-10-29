@@ -1,4 +1,3 @@
-requires 'Data::Printer';
 requires 'Feature::Compat::Class';
 requires 'File::Basename';
 requires 'File::Find';

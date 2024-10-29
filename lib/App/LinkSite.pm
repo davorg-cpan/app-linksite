@@ -15,7 +15,7 @@ The main driver class for App::LinkSite.
 use Feature::Compat::Class;
 
 class App::LinkSite {
-  our $VERSION = '0.0.2';
+  our $VERSION = '0.0.3';
   use strict;
   use warnings;
   use feature qw[say signatures];
@@ -27,7 +27,6 @@ class App::LinkSite {
   use File::Find;
   use File::Basename;
   use FindBin '$Bin';
-  use Data::Printer;
   use File::ShareDir;
 
   use App::LinkSite::Site;
@@ -51,8 +50,6 @@ class App::LinkSite {
   ADJUST {
     my $json = path($file)->slurp;
     my $data = JSON->new->decode($json);
-
-    debug(np $data);
 
     $ga4 = $data->{ga4} // '';
     $font_awesome_kit = $data->{font_awesome_kit} // '';

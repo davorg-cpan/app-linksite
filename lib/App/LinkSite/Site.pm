@@ -22,12 +22,12 @@ class App::LinkSite::Site {
 
   use JSON;
 
-  field $name :param;
-  field $handle :param;
-  field $image :param;
-  field $desc :param;
-  field $og_image :param;
-  field $site_url :param;
+  field $name :reader :param;
+  field $handle :reader :param;
+  field $image :reader :param;
+  field $desc :reader :param;
+  field $og_image :reader :param;
+  field $site_url :reader :param;
 
   field $socials :reader :param = [];
   field $links :reader :param = [];

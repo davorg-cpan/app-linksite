@@ -1,9 +1,6 @@
 FROM perl:latest
-LABEL maintainer="dave@perlhacks.org"
+LABEL maintainer="dave@davecross.co.uk"
 
-COPY . /links
-RUN cd /links && cpanm --installdeps .
-RUN mkdir /linkdir
-ENV PATH "$PATH:/links/bin"
-ENV PERL5LIB /links/lib
-WORKDIR /linksdir
+RUN cpanm -n App::LinkSite@0.0.3
+RUN mkdir /links
+WORKDIR /links

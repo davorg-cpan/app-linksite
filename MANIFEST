@@ -1,5 +1,6 @@
 bin/linksite
 cpanfile
+Changes.md
 example/build.yml
 example/links.json
 lib/App/LinkSite.pm

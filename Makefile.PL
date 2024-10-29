@@ -10,6 +10,9 @@ WriteMakefile(
     AUTHOR       => 'Dave Cross <dave@perlhacks.com>',
     LICENSE      => 'perl',
     MIN_PERL_VERSION  => '5.26.0',
+    CONFIGURE_REQUIRES => {
+        File::ShareDir::Install => 0,
+    },
     PREREQ_PM    => {
         'JSON' => 0,
         'Template' => 0,
@@ -17,7 +20,6 @@ WriteMakefile(
         'Path::Tiny' => 0,
         'File::Find' => 0,
         'File::ShareDir' => 0,
-        'File::ShareDir::Install' => 0,
         'FindBin' => 0,
         'Feature::Compat::Class' => 0.06,
         ($^V < v5.38 ? ('Object::Pad' => 0) : ()),

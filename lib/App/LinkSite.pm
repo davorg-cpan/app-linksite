@@ -27,7 +27,7 @@ class App::LinkSite {
   use File::Find;
   use File::Basename;
   use FindBin '$Bin';
-  use File::ShareDir;
+  use File::ShareDir 'dist_dir';
 
   use App::LinkSite::Site;
   use App::LinkSite::Link;

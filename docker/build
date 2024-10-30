@@ -2,5 +2,5 @@
 
 ver=`perl -nE '/\@v?([\d\.]+)/ and print $1 and exit' docker/Dockerfile`
 echo Building version $ver
-docker build -t davorg/links:latest -t davorg/links:links_$ver -f docker/Dockerfile .
+docker buildx build --sbom=true --provenance=true -t davorg/links:latest -t davorg/links:links_$ver -f docker/Dockerfile .
 docker push -a docker.io/davorg/links

@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.0.5] - 2024-10-30
+
+### Fixed
+
+- Load the function so we can find the shared files
+
 ## [0.0.4] - 2024-10-30
 
 ### Fixed

@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.0.6] - 2024-11-02
+
+### Fixed
+
+Test improvements
+
 ## [0.0.5] - 2024-10-30
 
 ### Fixed

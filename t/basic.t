@@ -17,4 +17,10 @@ TODO: {
 # Test the out method
 is($linksite->out, 'docs', 'out method returns "docs"');
 
+# Test the ga4 method
+is($linksite->ga4, 'GA4-Dummy', 'ga4 method returns "GA4-Dummy"');
+
+# Test the font_awesome_kit method
+is($linksite->font_awesome_kit, 'FA-Dummy', 'font_awesome_kit method returns "FA-Dummy"');
+
 done_testing;

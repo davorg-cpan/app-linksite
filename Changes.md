@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.0.10] - 2024-11-12
+
+### Fixed
+
+- A stupid typo
+
 ## [0.0.9] - 2024-11-12
 
 ### Fixed

@@ -1,6 +1,6 @@
 =head1 NAME
 
-App::LinkSite
+App::LinkSite - Create a website listing all of your links
 
 =head1 SYNOPIS
 

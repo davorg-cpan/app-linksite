@@ -43,10 +43,15 @@ Returns a JSON/LD fragment for this web site.
   method json_ld {
     my $json = {
       '@context' => 'https://schema.org',
-      '@type' => 'Person',
-      name => $self->name,
-      image => $self->image,
-      sameAs => [ map { $_->mk_social_link } $self->socials->@* ],
+      '@type' => 'WebPage',
+      name => "Links page for $name ($handle)",
+      mainEntity => {
+        '@context' => 'https://schema.org',
+        '@type' => 'Person',
+        name => $self->name,
+        image => $self->image,
+        sameAs => [ map { $_->mk_social_link } $self->socials->@* ],
+      },
       relatedLink => [ map { $_->link } $self->links->@* ],
     };
 

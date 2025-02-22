@@ -108,6 +108,9 @@ The main driver method for the process.
       debug("Copy CNAME");
       path('./CNAME')->copy("$out/CNAME");
     }
+
+    debug("Copy input JSON file");
+    path($file)->copy($out);
   }
 
 =head2 do_this

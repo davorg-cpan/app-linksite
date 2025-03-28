@@ -19,7 +19,6 @@ WriteMakefile(
         'JSON' => 0,
         'Path::Tiny' => 0,
         'File::Find' => 0,
-        'File::ShareDir::Install' => 0, # For GitHub Actions
         'File::ShareDir' => 0,
         'FindBin' => 0,
         'Feature::Compat::Class' => 0.06,

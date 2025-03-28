@@ -148,7 +148,7 @@ The name of the social media site's icon as represented in Font Awesome
 =cut
 
   method social_icon_template {
-    return q[<a title='%s' href='%s'><i class='fa-brands fa-3x fa-%s'></i></a>];
+    return q[<a rel='me' title='%s' href='%s'><i class='fa-brands fa-3x fa-%s'></i></a>];
   }
 
 =head2 mk_social_icon

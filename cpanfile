@@ -5,7 +5,7 @@ on 'configure' => sub {
 requires 'Feature::Compat::Class';
 requires 'File::Find';
 requires 'File::Basename';
-requires 'File::ShareDir',
+requires 'File::ShareDir';
 requires 'FindBin';
 requires 'JSON';
 requires 'Path::Tiny', '>= 0.125';

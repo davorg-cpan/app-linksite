@@ -2,7 +2,7 @@ on 'configure' => sub {
   requires 'File::ShareDir::Install';
 };
 
-requires 'Feature::Compat::Class';
+requires 'Feature::Compat::Class', '>= 0.07';
 requires 'File::Find';
 requires 'File::Basename';
 requires 'File::ShareDir';

@@ -58,7 +58,8 @@ class App::LinkSite {
       # Output in the data directory
       OUTPUT_PATH  => $out,
       VARIABLES    => {
-        ga4              => $ga4,
+        ga4        => $ga4,
+        version    => $VERSION,
       }
     });
 

@@ -83,5 +83,6 @@
             crossorigin="anonymous"></script>
 [% USE date -%]
     <!-- Built at: [% date.format %] -->
+    <!-- Made by App::LinkSite, version [% version %] -->
   </body>
 </html>

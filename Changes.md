@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.0.16] - 2025-08-04
+
+### Updated
+
+- Improved footer links
+
 ## [0.0.15] - 2025-06-27
 
 ### Updated

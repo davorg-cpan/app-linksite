@@ -37,6 +37,6 @@ Create a link site from a simple input file.
 This program parses a JSON file (called C<links.json>) and turns the data
 into a link site (a bit like LinkTree).
 
-For more information see https://linksite.davecross.co.uk/.
+For more information see L<https://linksite.davecross.co.uk/>.
 
 =cut

@@ -90,4 +90,4 @@ This is a list of links that will be displayed below the social media icons.
 
 ## Demo
 
-My links - https://links.davecross.co.uk/
+My links - [links.davecross.co.uk](https://links.davecross.co.uk/)

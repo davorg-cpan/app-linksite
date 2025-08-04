@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.0.17] - 2025-08-04
+
+### Updated
+
+- Sticky footer
+
 ## [0.0.16] - 2025-08-04
 
 ### Updated

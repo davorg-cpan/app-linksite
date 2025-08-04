@@ -1,6 +1,54 @@
 #!/bin/sh
+set -e
 
-ver=`perl -nE '/\@v?([\d\.]+)/ and print $1 and exit' docker/Dockerfile`
-echo Building version $ver
-docker buildx build -t davorg/links:latest -t davorg/links:links_$ver -f docker/Dockerfile .
-docker push -a docker.io/davorg/links
+mod="App::LinkSite"
+
+# Step 1: Determine module file from Makefile.PL
+version_file=$(perl -nE '/VERSION_FROM\s*=>\s*["'\'']([^"'\'']+)["'\'']/ && print $1 and exit' Makefile.PL)
+
+if [ ! -f "$version_file" ]; then
+  echo "Error: version file '$version_file' not found"
+  exit 1
+fi
+
+# Step 2: Extract version string from module file
+ver_src=$(perl -nE '/\$VERSION\s*=\s*["'\'']([^"'\'']+)["'\'']/ && print $1 and exit' "$version_file")
+
+if [ -z "$ver_src" ]; then
+  echo "Error: no version string found in $version_file"
+  exit 1
+fi
+
+# Step 3: Convert version to CPAN numeric format
+ver_cpan=$(perl -Mversion -E "say version->parse('$ver_src')->numify")
+
+echo "Building $mod version $ver_src (CPAN format: $ver_cpan)"
+
+# Step 4: Check that version exists in CPAN index
+tmpfile=$(mktemp)
+curl -s https://www.cpan.org/modules/02packages.details.txt.gz | gunzip > "$tmpfile"
+found=$(awk -v mod="$mod" -v ver="$ver_cpan" '$1 == mod && $2 == ver { print; exit }' "$tmpfile")
+rm "$tmpfile"
+
+if [ -z "$found" ]; then
+  echo "Error: $mod version $ver_src ($ver_cpan) not found in 02packages"
+  exit 1
+fi
+
+echo "Found: $found"
+
+# Step 5: Collect metadata
+git_commit=$(git rev-parse --short HEAD)
+build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+# Step 6: Build Docker image with metadata
+docker buildx build \
+  --build-arg LINKSITE_VERSION="$ver_src" \
+  --build-arg BUILD_DATE="$build_date" \
+  --build-arg GIT_COMMIT="$git_commit" \
+  -t davorg/links:latest \
+  -t davorg/links:links_"$ver_src" \
+  -f docker/Dockerfile \
+  --push \
+  .
+

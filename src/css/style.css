@@ -1,3 +1,8 @@
+body {
+  background: var(--bg-color, #fff);
+  color: var(--text-color, #000);
+  font-family: Arial, sans-serif;
+}
 header {
   padding-top: 5%;
 }
@@ -17,7 +22,7 @@ header {
 }
 
 #links {
-  border
+  border: none;
   width: 50%;
   margin-left: auto;
   margin-right: auto;

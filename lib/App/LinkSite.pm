@@ -70,7 +70,7 @@ class App::LinkSite {
 
     my $links = [ map { App::LinkSite::Link->new(%$_) } $data->{links}->@* ];
 
-    $site = App::LinkSite::Site->new(
+    my %site_args = (
       name    => $data->{name},
       handle  => $data->{handle},
       image   => $data->{image},
@@ -79,9 +79,13 @@ class App::LinkSite {
       site_url => $data->{site_url},
       socials => $socials,
       links   => $links,
-      text_color => $data->{text_color} // '#000000',
-      background_color => $data->{background_color} // '#ffffff',
     );
+    
+    # Only add color parameters if they're specified in the JSON
+    $site_args{text_color} = $data->{text_color} if $data->{text_color};
+    $site_args{background_color} = $data->{background_color} if $data->{background_color};
+    
+    $site = App::LinkSite::Site->new(%site_args);
   }
 
 =head1 METHODS

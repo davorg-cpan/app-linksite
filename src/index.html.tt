@@ -54,7 +54,7 @@
 [% site.json_ld %]
     </script>
   </head>
-  <body style="background: [% site.background_color %]; color: [% site.text_color %];">
+  <body>
     <div class="d-flex flex-column min-vh-100">
       <div class="container-fluid text-center flex-grow-1">
         <header>

@@ -59,6 +59,8 @@ The `links.json` file defines what appears on your link site. It has three secti
 * **site_url:** The URL of your site. This is optional. Without it, the program will probably do the right thing
 * **desc:** A one-line description that appears on the site. You can use simple HTML in this
 * **ga4:** If you want to track visitors using Google Analytics, then put your site key here
+* **text_color:** Optional. The text color for your site (e.g., "#333333" or "#000000"). If not provided, defaults to black
+* **background_color:** Optional. The background color for your site (e.g., "#f8f9fa" or "#ffffff"). If not provided, defaults to white
 
 ### Socials
 

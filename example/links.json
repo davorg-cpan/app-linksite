@@ -6,6 +6,8 @@
   "site_url": "https://some-site.com/",
   "desc": "I make things from software. Some of them are useful.<br>And I've been known to write a book or two.",
   "ga4": "Your Google Analytics key",
+  "text_color": "#333333",
+  "background_color": "#f8f9fa",
   "social": [{
     "service": "facebook"
   }, {

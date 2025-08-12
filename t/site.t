@@ -12,6 +12,24 @@ my $site = App::LinkSite::Site->new(
     og_image => 'test_og_image.png',
     site_url => 'http://example.com',
 );
+
+# Test default color values (should be undef if not set)
+is($site->text_color, undef, 'text_color is undef by default');
+is($site->background_color, undef, 'background_color is undef by default');
+
+# Test custom color values
+my $site2 = App::LinkSite::Site->new(
+    name     => 'Test Name',
+    handle   => 'Test Handle',
+    image    => 'test_image.jpg',
+    desc     => 'Test Description',
+    og_image => 'test_og_image.png',
+    site_url => 'http://example.com',
+    text_color => '#123456',
+    background_color => '#abcdef',
+);
+is($site2->text_color, '#123456', 'text_color returns custom value');
+is($site2->background_color, '#abcdef', 'background_color returns custom value');
 isa_ok($site, 'App::LinkSite::Site', 'Created an App::LinkSite::Site object');
 
 # Test the name method

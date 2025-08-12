@@ -28,6 +28,8 @@ class App::LinkSite::Site {
   field $desc :reader :param;
   field $og_image :reader :param;
   field $site_url :reader :param;
+  field $text_color :reader :param;
+  field $background_color :reader :param;
 
   field $socials :reader :param = [];
   field $links :reader :param = [];
@@ -45,15 +47,15 @@ Returns a JSON/LD fragment for this web site.
       '@context' => 'https://schema.org',
       '@type' => 'WebPage',
       name => "Links page for $name ($handle)",
-      mainEntity => {
+  mainEntity => {
         '@context' => 'https://schema.org',
         '@type' => 'Person',
         name => $self->name,
-        image => $self->image,
+  image => $self->image,
         sameAs => [ map { $_->mk_social_link } $self->socials->@* ],
-      },
-      relatedLink => [ map { $_->link } $self->links->@* ],
-    };
+  },
+  relatedLink => [ map { $_->link } $self->links->@* ],
+  };
 
     return JSON->new->pretty->encode($json);
   }

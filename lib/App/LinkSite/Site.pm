@@ -28,8 +28,8 @@ class App::LinkSite::Site {
   field $desc :reader :param;
   field $og_image :reader :param;
   field $site_url :reader :param;
-  field $text_color :reader :param;
-  field $background_color :reader :param;
+  field $text_color :reader :param = undef;
+  field $background_color :reader :param = undef;
 
   field $socials :reader :param = [];
   field $links :reader :param = [];

@@ -79,8 +79,8 @@ class App::LinkSite {
       site_url => $data->{site_url},
       socials => $socials,
       links   => $links,
-      text_color => $data->{text_color} // '#000000',
-      background_color => $data->{background_color} // '#ffffff',
+      $data->{text_color}       ? (text_color => $data->{text_color}) : (),
+      $data->{background_color} ? (background_color => $data->{background_color} ) : (),
     );
   }
 

@@ -14,8 +14,8 @@ my $site = App::LinkSite::Site->new(
 );
 
 # Test default color values (should be undef if not set)
-is($site->text_color, undef, 'text_color is undef by default');
-is($site->background_color, undef, 'background_color is undef by default');
+is($site->text_color, undef, 'text_color is undefined by default');
+is($site->background_color, undef, 'background_color is undefined by default');
 
 # Test custom color values
 my $site2 = App::LinkSite::Site->new(

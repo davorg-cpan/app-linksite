@@ -1,5 +1,10 @@
 # Change Log
 
+## Unreleased
+
+- Allow configuration of text colour and background colour
+- Simply example workflow
+
 ## [0.0.17] - 2025-08-04
 
 ### Updated

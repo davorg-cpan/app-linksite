@@ -46,3 +46,12 @@ li.new-link::before {
   font-variant: small-caps;
   font-weight: bold;
 }
+
+#links h3 {
+  font-style: italic;
+}
+
+#links h3:not(:first-of-type) {
+  padding-top: 15px;
+}
+

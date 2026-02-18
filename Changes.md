@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## [0.1.0] - 2026-02-18
+
 - Allow configuration of text colour and background colour
 - Simply example workflow
 - Accept filename as command-line argument

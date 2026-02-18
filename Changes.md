@@ -4,6 +4,7 @@
 
 - Allow configuration of text colour and background colour
 - Simply example workflow
+- Accept filename as command-line argument
 
 ## [0.0.17] - 2025-08-04
 

@@ -33,8 +33,33 @@ class App::LinkSite::Site {
 
   field $socials :reader :param = [];
   field $links :reader :param = [];
+  field $sections :reader :param = [];
 
 =head1 METHODS
+
+=head2 has_sections
+
+Returns true if the site has any non-empty sections.
+
+=cut
+
+  method has_sections {
+    return scalar(grep { $_->has_links } $self->sections->@*) > 0;
+  }
+
+=head2 all_links
+
+Returns all links from both the links array and all sections.
+
+=cut
+
+  method all_links {
+    my @all_links = $self->links->@*;
+    for my $section ($self->sections->@*) {
+      push @all_links, $section->links->@*;
+    }
+    return @all_links;
+  }
 
 =head2 json_ld
 
@@ -54,7 +79,7 @@ Returns a JSON/LD fragment for this web site.
   image => $self->image,
         sameAs => [ map { $_->mk_social_link } $self->socials->@* ],
   },
-  relatedLink => [ map { $_->link } $self->links->@* ],
+  relatedLink => [ map { $_->link } $self->all_links ],
   };
 
     return JSON->new->pretty->encode($json);

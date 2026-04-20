@@ -26,7 +26,7 @@ WriteMakefile(
         'File::ShareDir' => 0,
         'FindBin' => 0,
         'Feature::Compat::Class' => 0.07,
-        ($^V < v5.38 ? ('Object::Pad' => 0) : ()),
+        'Object::Pad' => 0,
     },
     EXE_FILES    => [ 'bin/linksite' ],
     META_MERGE        => {

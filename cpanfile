@@ -6,6 +6,7 @@ on 'configure' => sub {
   requires 'CPAN::Meta::YAML',    '>= 0.018';
 };
 
+requires 'Object::Pad';
 requires 'Feature::Compat::Class', '>= 0.07';
 requires 'File::Find';
 requires 'File::Basename';
@@ -14,8 +15,4 @@ requires 'FindBin';
 requires 'JSON';
 requires 'Path::Tiny', '>= 0.125';
 requires 'Template';
-
-if ($^V < v5.38) {
-  requires 'Object::Pad';
-}
 

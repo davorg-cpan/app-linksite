@@ -13,7 +13,7 @@ WriteMakefile(
     CONFIGURE_REQUIRES => {
         File::ShareDir::Install => 0,
         ExtUtils::MakeMaker     >= 7.70;
-        ExtUtils::CBuilder      >= 0.280240;
+        ExtUtils::CBuilder      >= 0.280236;
         CPAN::Meta              >= 2.150010;
         CPAN::Meta::YAML        >= 0.018;
     },

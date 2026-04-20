@@ -1,5 +1,9 @@
 on 'configure' => sub {
   requires 'File::ShareDir::Install';
+  requires 'ExtUtils::MakeMaker', '>= 7.70';
+  requires 'ExtUtils::CBuilder',  '>= 0.280240';
+  requires 'CPAN::Meta',          '>= 2.150010';
+  requires 'CPAN::Meta::YAML',    '>= 0.018';
 };
 
 requires 'Feature::Compat::Class', '>= 0.07';

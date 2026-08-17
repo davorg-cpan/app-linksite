@@ -89,6 +89,10 @@ class App::LinkSite::Social {
       url  => 'https://last.fm/user/',
       name => 'last.fm',
     },
+    kofi => {
+      url  => 'https://ko-fi.com/',
+      name => 'Ko-fi',
+    }
   };
 
 =head1 METHODS

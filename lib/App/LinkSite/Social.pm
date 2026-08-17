@@ -15,7 +15,7 @@ A class to model a social link on a link site (part of App::LinkSite).
 use Feature::Compat::Class;
 
 class App::LinkSite::Social {
-  our $VERSION = '0.1.1';
+  our $VERSION = '0.1.2';
   use strict;
   use warnings;
   use feature qw[say signatures];
@@ -89,7 +89,7 @@ class App::LinkSite::Social {
       url  => 'https://last.fm/user/',
       name => 'last.fm',
     },
-    kofi => {
+    'ko-fi' => {
       url  => 'https://ko-fi.com/',
       name => 'Ko-fi',
     }

@@ -97,6 +97,7 @@ You can optionally organize your links into sections with headers. This is usefu
   * **links:** An array of link objects (same format as the links above)
 
 When using sections:
+
 * Empty sections (sections with no links) are automatically ignored
 * Any links in the top-level `links` array will be displayed in a separate "Other links" section after all other sections
 * If you don't use sections, links will be displayed as a flat list (the original behavior)

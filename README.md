@@ -171,6 +171,12 @@ top-level and section links, add a top-level `"utm": {}`. This adds:
 | `utm_source` | `linksite` |
 | `utm_medium` | `referral` |
 | `utm_campaign` | `profile` |
+| `utm_content` | Slug of the link's `title`, for example `My Newsletter!` becomes `my-newsletter`. |
+
+Title slugs use lowercase Unicode letters and numbers. Runs of spaces or
+punctuation become a single hyphen, and leading/trailing hyphens are removed.
+If nothing remains, `utm_content` is omitted. Links with the same title have
+the same default content value; override it to distinguish them.
 
 Override defaults globally or for an individual link using full `utm_*`
 parameter names. For example, this fragment changes the source for all
@@ -180,7 +186,7 @@ content links and identifies one link separately:
 "utm": { "utm_source": "my-profile", "utm_campaign": "summer" },
 "links": [
   {
-    "title": "Newsletter",
+    "title": "My newsletter",
     "link": "https://example.com/newsletter#subscribe",
     "utm": { "utm_content": "newsletter" }
   },

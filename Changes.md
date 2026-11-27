@@ -5,8 +5,9 @@
 ### Added
 
 - Add opt-in UTM parameters for content links, with configurable defaults,
-  global and per-link settings, and per-link opt-out. Preserve existing
-  query parameters, fragments, canonical URLs, and social profile URLs (#25).
+  title-slug defaults for `utm_content`, global and per-link settings, and
+  per-link opt-out. Preserve existing query parameters, fragments, canonical
+  URLs, and social profile URLs (#25).
 
 ### Fixed
 

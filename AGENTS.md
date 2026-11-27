@@ -79,6 +79,9 @@ checkout even with `-Ilib`. CONTRIBUTING.md contains a complete recipe.
   settings; false/null opts out. Existing URL parameters win. `tracked_link`
   is the click destination, while `link` and JSON-LD remain canonical. Social
   URLs are unchanged. Declare URI and URI::Escape as runtime prerequisites.
+  Default `utm_content` is a lowercase title slug with non-letter/number
+  runs replaced by hyphens. Empty slugs are omitted; explicit settings or
+  existing URL parameters take precedence.
 - Only non-empty sections activate section layout. Top-level links then
   appear under “Other links”; otherwise the display is a flat list.
 - `Site::all_links` returns a list with top-level links first, followed by

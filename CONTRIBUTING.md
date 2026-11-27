@@ -146,8 +146,9 @@ subtitle. The constructor parameter `new` is stored in `$new_link` and read
 through `is_new`; CSS renders the visible label for the `new-link` class.
 `Link::tracked_link` adds opt-in UTM parameters to absolute HTTP(S) click
 destinations; `link` and JSON-LD remain canonical. An empty UTM object enables
-source `linksite`, medium `referral`, and campaign `profile`; supplied values
-override those defaults, and null/empty parameter values are omitted.
+source `linksite`, medium `referral`, campaign `profile`, and content from a
+lowercase title slug. Supplied values override those defaults, and null/empty
+parameter values are omitted.
 Existing query keys win, including percent-encoded keys and bare parameters.
 URI is used for URL parsing and URI::Escape for UTF-8 value encoding; appended
 parameters do not rewrite existing query bytes. Only tracked anchors get
@@ -212,8 +213,9 @@ metadata attribute escaping for apostrophes, double quotes, ampersands, and
 markup, alongside the visible description's HTML and newline handling.
 It accepts literal or entity-encoded apostrophes across Template Toolkit
 versions; both are valid inside double-quoted attributes.
-`t/utm.t` checks opt-in defaults, global/per-link inheritance, opt-out,
-existing queries/fragments, UTF-8 encoding and rendering, unsupported URL
+`t/utm.t` checks opt-in defaults, title slugs and content overrides,
+global/per-link inheritance, opt-out, existing queries/fragments, UTF-8
+encoding and rendering, unsupported URL
 schemes, invalid settings, canonical JSON-LD, and unchanged copied input.
 Most social URL patterns and detailed HTML rendering remain untested; a
 passing suite alone will not catch every template regression.

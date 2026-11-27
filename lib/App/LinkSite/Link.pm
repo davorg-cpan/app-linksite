@@ -47,9 +47,12 @@ class App::LinkSite::Link {
 
 Returns the destination used for clicks. An optional C<utm> constructor
 parameter enables tracking when it is a hash reference, even an empty one.
-Defaults are C<utm_source=linksite>, C<utm_medium=referral>, and
-C<utm_campaign=profile>. Supplied values override them; null or empty values
-omit a parameter. False or undefined C<utm> leaves the destination unchanged.
+Defaults are C<utm_source=linksite>, C<utm_medium=referral>,
+C<utm_campaign=profile>, and C<utm_content> from a slug of the link title.
+Slugs use lowercase Unicode letters and numbers, with other runs replaced
+by hyphens and leading/trailing hyphens removed. Empty slugs are omitted.
+Supplied values override them; null or empty values omit a parameter.
+False or undefined C<utm> leaves the destination unchanged.
 
 Only absolute HTTP(S) URLs are tagged. Existing query parameters, including
 UTM values, and fragments are preserved. C<link> still returns the original
@@ -62,9 +65,12 @@ destination, which is also used for JSON-LD.
     my $uri = URI->new($link);
     return $link unless ($uri->scheme // '') =~ /\Ahttps?\z/i && $uri->host;
 
+    my $content = lc($title // '');
+    $content =~ s/[^\p{L}\p{N}]+/-/g;
+    $content =~ s/\A-|-\z//g;
     my %parameters = (
       utm_source => 'linksite', utm_medium => 'referral',
-      utm_campaign => 'profile', %$utm,
+      utm_campaign => 'profile', utm_content => $content, %$utm,
     );
     my %existing;
     for my $pair (split /[&;]/, $uri->query // '') {

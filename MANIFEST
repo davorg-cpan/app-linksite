@@ -16,6 +16,7 @@ META.json
 README.md
 src/css/style.css
 src/index.html.tt
+t/analytics.t
 t/basic.t
 t/cli.t
 t/file-parameter-isolation.t

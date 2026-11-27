@@ -12,7 +12,7 @@
     <meta property="og:url" content="[% site.site_url %]">
 [% IF ga4 -%]
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KHXQ2SWP9P"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=[% ga4 %]"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}

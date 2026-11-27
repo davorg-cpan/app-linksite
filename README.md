@@ -193,25 +193,33 @@ images or clear those fields before building.
 ## Commands and alternate input files
 
 ```sh
-linksite            # build links.json into docs/
-linksite --help     # display usage
-linksite --version  # display installed version
+linksite                     # build links.json into docs/
+linksite --file profile.json  # build a different input file into docs/
+linksite --help              # display usage
+linksite --version           # display installed version
 LINKSITE_DEBUG=1 linksite
 ```
 
-**Current CLI limitation:** `--file` is advertised by the command's help but
-exits without generating a site. Positional filenames are not supported.
-For a different input filename, use the working Perl API:
+Use `--file` for a different input filename or path. Quote paths containing
+spaces; positional filenames are not supported:
 
 ```sh
-perl -MApp::LinkSite -e 'App::LinkSite->new(file => "profile.json")->run'
+linksite --file "content/my profile.json"
 ```
 
-You can also select a different output directory through the API:
+`--help` and `--version` display information without reading input or building,
+including when combined with `--file`. Invalid options, such as `--file`
+without a filename, return exit status 2 without building. Successful builds
+and informational options return zero; input or build failures return non-zero.
+
+Select a different output directory through the Perl API:
 
 ```sh
 perl -MApp::LinkSite -e 'App::LinkSite->new(file => "profile.json", out => "public")->run'
 ```
+
+The CLI correction is currently unreleased. In release 0.1.3, use the Perl
+API above to select a custom input file.
 
 Even with a different input path, images and `CNAME` are still read from the
 current working directory. There are no CLI options for output directories
@@ -262,7 +270,6 @@ Setting `site_url` alone does not change asset paths.
 | --- | --- |
 | Cannot read or decode the input | Run from the directory containing `links.json`; ensure it is valid JSON with the expected object and array shapes. There is no separate schema-validation command. |
 | Missing image / copy failure | The filename must exist under `img/` in the working directory. The examples do not ship image files. |
-| No output after using `--file` | Use the API command above or rename the input to `links.json`. |
 | Page has no local CSS or profile image | Preview through a web server at its root; check the hosting-path limitation above. |
 | Social icon or link is missing | Check the service identifier, profile handle, and whether the CDN stylesheet loads. |
 | Old files remain after a rebuild | The builder does not clean the output directory. Use a new output directory or remove obsolete generated files yourself. |

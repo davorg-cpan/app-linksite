@@ -4,6 +4,8 @@
 
 ### Fixed
 
+- Honor the CLI `--file` option, including filenames such as `0`, and stop
+  invalid options from building the default input (#26).
 - Use Strawberry Perl's bundled Windows toolchain in CI to avoid XS
   extension/interpreter ABI mismatches; retain the full Perl matrix and
   collect failures independently for each Windows version (#36).

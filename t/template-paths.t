@@ -28,7 +28,8 @@ for my $page (@pages) {
     my ($output_path, $label) = @$page;
     my $template = $src->child("$output_path.tt");
     $template->parent->mkpath;
-    $template->spew("$label: [% site.name %]\n");
+    # Template Toolkit reads bytes; keep fixture newlines LF on Windows too.
+    $template->spew_raw("$label: [% site.name %]\n");
 }
 
 my @assets = (

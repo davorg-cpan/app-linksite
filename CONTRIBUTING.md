@@ -191,6 +191,8 @@ supplied ID, and that omitted, empty, or null IDs emit no analytics code.
 `t/template-paths.t` uses a temporary source tree to check nested templates,
 matching basenames in different directories, final-suffix removal, and
 unchanged copying of text/binary assets and input JSON.
+Its template fixtures use raw writes for consistent LF line endings across
+platforms; Template Toolkit reads template bytes without newline conversion.
 Most social URL patterns and detailed HTML rendering remain untested; a
 passing suite alone will not catch every template regression.
 

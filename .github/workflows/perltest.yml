@@ -11,7 +11,50 @@ jobs:
   test:
     uses: PerlToolsTeam/github_workflows/.github/workflows/cpan-test.yml@main
     with:
+      os: '["macos-latest", "ubuntu-latest"]'
       perl_version: "['5.26', '5.28', '5.30', '5.32', '5.34', '5.36', '5.38', '5.40']"
+
+  windows:
+    name: Perl ${{ matrix.perl }} on Windows (Strawberry)
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        perl: ['5.26', '5.28', '5.30', '5.32', '5.34', '5.36', '5.38', '5.40']
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v7
+      - name: Set up Strawberry Perl
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: ${{ matrix.perl }}
+          distribution: strawberry
+          enable-modules-cache: false
+      - name: Perl configuration
+        run: perl -V
+      - name: Install dependencies
+        env:
+          PERL_CPANM_HOME: ${{ runner.temp }}/cpanm
+        run: cpanm --notest --with-configure --installdeps .
+      - name: Configure
+        run: perl Makefile.PL
+      - name: Build
+        run: |
+          $make = perl -MConfig -e 'print $Config{make}'
+          & $make
+      - name: Test
+        run: |
+          $make = perl -MConfig -e 'print $Config{make}'
+          & $make TEST_VERBOSE=1 test
+      - name: Archive CPAN logs
+        if: failure()
+        uses: actions/upload-artifact@v5
+        with:
+          name: cpan-windows-${{ matrix.perl }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/cpanm/work/**/build.log
+          retention-days: 5
 
   coverage:
     uses: PerlToolsTeam/github_workflows/.github/workflows/cpan-coverage.yml@main

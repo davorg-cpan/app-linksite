@@ -4,6 +4,9 @@
 
 ### Fixed
 
+- Use Strawberry Perl's bundled Windows toolchain in CI to avoid XS
+  extension/interpreter ABI mismatches; retain the full Perl matrix and
+  collect failures independently for each Windows version (#36).
 - Correct configure prerequisite metadata, require Path::Tiny 0.125, and
   declare File::Basename and Test::More in Makefile.PL (#29).
 - Include generated META.json so clean checkouts can install configure

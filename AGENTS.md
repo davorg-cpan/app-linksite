@@ -82,10 +82,9 @@ checkout even with `-Ilib`. CONTRIBUTING.md contains a complete recipe.
   on descriptions, link fragments, attributes, and JSON-LD when changing
   rendering or escaping.
 
-Known issues are recorded in CONTRIBUTING.md: assets use root-relative URLs
-and the distribution manifest omits some existing tests/examples. Do not
-mistake those limitations for working features. Fix them when in scope and
-update their documentation and coverage.
+Known issues are recorded in CONTRIBUTING.md, including root-relative asset
+URLs. Do not mistake those limitations for working features. Fix them when
+in scope and update their documentation and coverage.
 
 ## Keep documentation and packaging aligned
 
@@ -102,8 +101,11 @@ Update examples and user docs for configuration or CLI changes. Update
 `Changes.md` for behavior changes. Declare dependencies in `Makefile.PL`
 using the appropriate configure, runtime, or test phase; it is the single
 dependency source for this CPAN distribution. Include new distribution files
-in `MANIFEST`. Regenerate committed `META.json` after changing dependencies
-or the release version; CONTRIBUTING.md describes the `make distmeta` workflow.
+in `MANIFEST`. For packaging changes, inspect a `make dist` archive and run
+the tests from an extracted temporary copy; include the full test suite,
+fixtures, and configuration examples. Regenerate committed `META.json` after
+changing dependencies or the release version; CONTRIBUTING.md describes the
+`make distmeta` workflow.
 Follow Semantic Versioning (SemVer), using `MAJOR.MINOR.PATCH`. Assess changes
 to the documented JSON format, CLI, and public Perl API using the
 [versioning policy](CONTRIBUTING.md#versioning), including its `0.x.y` caveat.

@@ -222,9 +222,6 @@ These describe the checked-in implementation, rather than intended behavior:
 - The social fixture uses `service => 'twitter'` with an explicit URL and
   only tests readers. The supported service key for generated icons/URLs is
   `x-twitter`.
-- `MANIFEST` does not currently include `t/section.t`
-  or `example/links-with-sections.json`. Audit packaged tests and examples
-  before a release; a source-checkout test run covers more than the tarball.
 
 Keep documentation accurate if these issues are fixed; do not preserve a
 bug merely because it is documented.
@@ -249,9 +246,12 @@ Validate changes to this sample with actionlint and check the branch/path
 combinations, including asset-only pushes and manual runs on other branches.
 
 Keep `MANIFEST` current for files that must ship. Use `make distcheck` to
-review its warnings and inspect
-the archive if preparing a release; repository-only CI and docs files may
-intentionally be excluded.
+review its warnings, then `make dist` to build a release archive. Check that
+the archive contains the full `t/` suite and its fixtures, plus both flat
+and sectioned configuration examples. Extract it into a temporary directory
+and run `perl Makefile.PL`, `make`, and `make test` there before releasing;
+a passing checkout suite alone does not verify packaged files.
+Repository-only CI and docs files may intentionally be excluded.
 
 See [docker/README.md](docker/README.md) for the container workflow. The
 Dockerfile installs a version from CPAN, not the checkout. `docker/build`

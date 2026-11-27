@@ -5,6 +5,7 @@ Changes.md
 docker/README.md
 example/build.yml
 example/links.json
+example/links-with-sections.json
 lib/App/LinkSite.pm
 lib/App/LinkSite/Link.pm
 lib/App/LinkSite/Site.pm
@@ -24,6 +25,7 @@ t/file-parameter.t
 t/link.t
 t/links.json
 t/prerequisites.t
+t/section.t
 t/site.t
 t/social.t
 t/template-paths.t

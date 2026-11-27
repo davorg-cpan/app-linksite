@@ -36,7 +36,14 @@ ok($metadata_file->is_file, 'configuration writes MYMETA.json');
 BAIL_OUT('Cannot check prerequisites without generated metadata')
     unless $metadata_file->is_file;
 
-my $generated = CPAN::Meta->load_file("$metadata_file")->effective_prereqs;
+my $configured = CPAN::Meta->load_file("$metadata_file");
+my $generated = $configured->effective_prereqs;
+my $bootstrap = CPAN::Meta->load_file($root->child('META.json')->stringify);
+is_deeply($bootstrap->effective_prereqs->as_string_hash,
+    $generated->as_string_hash,
+    'committed bootstrap metadata matches freshly configured prerequisites');
+is($bootstrap->version, $configured->version,
+    'committed metadata version matches the distribution');
 is_deeply(
     $generated->requirements_for('configure', 'requires')->as_string_hash,
     {

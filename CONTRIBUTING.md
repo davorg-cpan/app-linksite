@@ -48,9 +48,18 @@ prove -Ilib -v t
 `CONFIGURE_REQUIRES`, `PREREQ_PM`, `TEST_REQUIRES`, and `MIN_PERL_VERSION`.
 It uses File::ShareDir::Install to install `src/` as distribution share files.
 `cpanm --installdeps .` reads this distribution's requirements without a
-separate dependency file. `t/prerequisites.t` configures a fresh temporary
-distribution and checks that generated metadata retains the required modules
-and minimum versions.
+separate hand-maintained dependency file. Committed `META.json` lets a clean
+checkout discover configure dependencies, including File::ShareDir::Install,
+before running Makefile.PL. Regenerate this metadata from Makefile.PL when
+dependencies or the release version change: run `make distmeta`, then copy
+`META.json` from the generated distribution directory back to the repository
+root. The directory name includes the current version, for example
+`App-LinkSite-0.1.3/`.
+
+`t/prerequisites.t` configures a fresh temporary distribution and checks
+that generated metadata retains the required modules and minimum versions,
+and that committed bootstrap metadata matches it. Edit Makefile.PL first;
+do not maintain a separate dependency list in META.json by hand.
 
 `Makefile`, `MYMETA.*`, `blib/`, `pm_to_blib`, and release tarballs are generated
 and ignored by Git. They may already exist and may be stale.

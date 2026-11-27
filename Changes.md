@@ -6,6 +6,8 @@
 
 - Correct configure prerequisite metadata, require Path::Tiny 0.125, and
   declare File::Basename and Test::More in Makefile.PL (#29).
+- Include generated META.json so clean checkouts can install configure
+  dependencies before running Makefile.PL (#29).
 - Isolate the default input-file test in a temporary directory so running
   the test suite preserves an existing `links.json` (#31).
 

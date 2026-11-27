@@ -18,6 +18,8 @@ no application server or Node build.
 - `t/`: Test::More suite; `t/links.json` is the common fixture.
 - `example/`: user configurations and a consumer deployment workflow.
 - `Makefile.PL`, `MANIFEST`: packaging and prerequisites.
+- `META.json`: committed, generated metadata used to bootstrap configure
+  dependencies on clean checkouts; regenerate it from Makefile.PL.
 
 Use the existing Feature::Compat::Class style (`class`, `field`, `method`,
 `ADJUST`) and preserve support for Perl 5.26 unless the task changes that
@@ -29,7 +31,7 @@ From the repository root, run `prove -Ilib -v t` and `git diff --check`.
 For a fresh dependency setup, use the commands in CONTRIBUTING.md.
 The prerequisite regression configures a temporary distribution and checks
 that generated metadata retains configure, runtime, and test dependencies,
-including minimum versions.
+including minimum versions, and agrees with committed bootstrap metadata.
 `t/basic.t` has a TODO source-directory check that may fail without failing
 the suite.
 
@@ -85,7 +87,8 @@ Update examples and user docs for configuration or CLI changes. Update
 `Changes.md` for behavior changes. Declare dependencies in `Makefile.PL`
 using the appropriate configure, runtime, or test phase; it is the single
 dependency source for this CPAN distribution. Include new distribution files
-in `MANIFEST`.
+in `MANIFEST`. Regenerate committed `META.json` after changing dependencies
+or the release version; CONTRIBUTING.md describes the `make distmeta` workflow.
 Follow Semantic Versioning (SemVer), using `MAJOR.MINOR.PATCH`. Assess changes
 to the documented JSON format, CLI, and public Perl API using the
 [versioning policy](CONTRIBUTING.md#versioning), including its `0.x.y` caveat.

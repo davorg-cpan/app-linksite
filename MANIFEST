@@ -1,6 +1,9 @@
+AGENTS.md
 bin/linksite
+CONTRIBUTING.md
 cpanfile
 Changes.md
+docker/README.md
 example/build.yml
 example/links.json
 lib/App/LinkSite.pm

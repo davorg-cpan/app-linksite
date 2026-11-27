@@ -1,129 +1,281 @@
-# linksite
+# App::LinkSite
 
-Self-hosted Linktree clone
+Generate a small, self-hosted links page from a JSON file. App::LinkSite is a
+Perl command-line application: it builds static HTML and CSS that you can serve
+from any static web host. No Perl installation is needed on the web server.
 
-A very simple thing that I originally threw together in an hour or so. I
-have since spent many hours turning it into something that other people
-can also use.
+The page includes a profile, social icons, links, optional section headings,
+Open Graph metadata, and JSON-LD structured data. See the
+[live example](https://links.davecross.co.uk/).
 
-## How to create your own link site
+For development and architecture, see
+[CONTRIBUTING.md](https://github.com/davorg-cpan/app-linksite/blob/main/CONTRIBUTING.md).
+Coding agents should start with
+[AGENTS.md](https://github.com/davorg-cpan/app-linksite/blob/main/AGENTS.md).
 
-### The manual way
+## Build your first page
 
-* Install this module using your favourite CPAN module installation mechanism (`cpanm App::LinkSite`)
-* Create an `img` directory and in it put
-  * An image to go at the top of the page
-  * An image to use in the OpenGraph tags
-* Create a file called `links.json`. You can either [copy mine](https://github.com/davorg-cpan/app-linksite/blob/main/example/links.json) and hack it about until it works, or read the details about the contents of the file below
-* Run `linksite`
-* Take the output (which will have been written to the `docs` subdirectory) and put it somewhere that's accessible over the internet
+Install Perl 5.26 or later and App::LinkSite using your usual CPAN client:
 
-### The Github way
+```sh
+cpanm App::LinkSite
+mkdir my-links
+cd my-links
+```
 
-You can use GitHub, GitHub Actions and GitHub Pages together to automate a
-lot of this work.
+Save this as `links.json` in that directory:
 
-**Note:** If you take this approach (and I recommend it), you don't need to
-install the CPAN module. All the work is done on a Docker container that
-already has all of the required software installed.
+```json
+{
+  "name": "Example Person",
+  "handle": "example",
+  "desc": "Things I make and places to find me.",
+  "site_url": "https://links.example.com/",
+  "image": "",
+  "og_image": "",
+  "social": [
+    { "service": "github" },
+    { "service": "mastodon", "url": "https://social.example/@example" }
+  ],
+  "links": [
+    {
+      "title": "My website",
+      "subtitle": "Projects and writing",
+      "link": "https://example.com/",
+      "new": 1
+    },
+    { "title": "Email", "link": "mailto:me@example.com" }
+  ]
+}
+```
 
-* Create a new GitHub repo. Probably call it something like "links" or "my-links"
-* Create the images and the `links.json` file described in "the manual way" section above
-* Commit those files to your repo and push the commit to GitHub
-* Copy the [sample GitHub workflow file](https://github.com/davorg-cpan/app-linksite/blob/main/example/build.yml) to `.github/workflows/build.yml` in your repo
-* Commit the new file and push it to GitHub
-* Go to the Pages settings in your GitHub repo (github.com/username/reponame/settings/pages)
-* Set the build and deployment source as "GitHub Actions"
-* Go to the GitHub Actions page for your repo (github.com/username/reponame/actions/workflows/build.yml)
-* There will be a "Run workflow" button at the top right - push it
-* Watch the logs for the build process
-* Once the build is complete, your link site will be at username.github.io/reponame
+Replace the example names and URLs, then build:
 
-Now you've set this up, any changes to your `links.json` file will trigger a
-rebuild and redeployment of your link site.
+```sh
+linksite
+```
 
-## `links.json` syntax
+The generated site is in `docs/`. To preview it locally with Python installed:
 
-The `links.json` file defines what appears on your link site. It has three sections:
+```sh
+python3 -m http.server 8000 --directory docs
+```
 
-* *Frontmatter* - which defines things about the whole site
-* *Social Media Accounts* - the accounts that are listed here appear as a row of icons on your link site
-* *Links* - the links that are listed here appear in a list below the social media icons
+Open `http://localhost:8000/`. Upload the **contents** of `docs/` to your web
+host's document root when ready. The page loads Bootstrap and Font Awesome
+from public CDNs, so full styling and icons require network access.
 
-### Frontmatter
+Run builds in your content directory. The default output directory is relative
+to your current working directory, as are image and `CNAME` lookups. Rebuilding
+overwrites matching output files but does not remove old files.
 
-* **name:** Your name
-* **handle:** Your default social media handle. If you use the same handle on most social media sites, then just put it here and you won't need to list it everywhere
-* **image:** An image that appears at the top of the page
-* **og_image:** An image that appears in the Open Graph tags for your page
-* **site_url:** The URL of your site. This is optional. Without it, the program will probably do the right thing
-* **desc:** A one-line description that appears on the site. You can use simple HTML in this
-* **ga4:** If you want to track visitors using Google Analytics, then put your site key here
+## Configuration reference
 
-### Socials
+The input is one JSON object. The site-wide fields below are top-level keys;
+there is no separate `frontmatter` object. Use arrays of objects for `social`,
+`links`, and `sections`. Include `social: []` or `links: []` when you have no
+entries; for a site containing only sections, use `links: []`.
 
-A list of social networks that you use. This is a list of items. Each item
-can contain some of these.
+### Site settings
 
-* **service:** The name of the social media network
-* **handle:** The handle you use on this social media network. This can be omitted if it's the same as the default handle you have set in the frontmatter
-* **url:** If the link to your social media account is particularly complex (and I'm looking at you, Mastodon), then you can just put the complete link here. In most cases, you can omit this
+| Key | Meaning |
+| --- | --- |
+| `name` | Display name, used in the heading, page title, and metadata. |
+| `handle` | Default social handle; also shown with `@` in the page heading. Supply it without a leading `@`. |
+| `desc` | Profile description. Newlines become line breaks in the page; simple HTML is also accepted. |
+| `site_url` | Public URL of the page, including a trailing `/`, for Open Graph metadata. No URL is inferred when it is omitted. |
+| `image` | Profile image filename inside your local `img/` directory. Use `""` or omit it for no image. |
+| `og_image` | Social sharing image filename inside `img/`. Use `""` or omit it for no image. |
+| `text_color` | Optional CSS color, for example `"#222222"`. Default body text is black. |
+| `background_color` | Optional CSS color, for example `"#fafafa"`. Default body background is white. |
+| `ga4` | Optional Google Analytics measurement ID. Omit it to leave out analytics. See the limitation below. |
 
-In many cases, you can just give a list of social media network names.
+Color settings apply to the body; Bootstrap components and social icons have
+their own styles.
 
-    "social" : [{
-      "service" : "facebook"
-    }, {
-      "service" : "x-twitter"
-    }, {
-      "service" : "linkedin"
-    }]
+### Images and custom domains
 
-## Links
+For `"image": "avatar.jpg"` and `"og_image": "preview.png"`, prepare:
 
-This is a list of links that will be displayed below the social media icons.
+```text
+my-links/
+  links.json
+  img/
+    avatar.jpg
+    preview.png
+  CNAME             # optional: hostname for GitHub Pages
+```
 
-* **title:** The title to display for the link
-* **subtitle:** An optional subtitle for the link (displayed in smaller type below the title)
-* **link:** The link itself
-* **new:** An optional flag to mark a link as new (`"new": 1`). This will display the link with a red "New" next to it
+Use filenames directly inside `img/`, without the `img/` prefix or a full URL.
+Only the two named images are copied to `docs/img/`; the whole directory is not
+copied. A `CNAME` file in the working directory is copied to `docs/CNAME`.
+Configure your host and DNS separately for a custom domain.
 
-## Sections
+### Social accounts
 
-You can optionally organize your links into sections with headers. This is useful for grouping related links together.
+Each object in `social` accepts:
 
-* **sections:** An optional array of section objects, where each section has:
-  * **title:** The heading for this section
-  * **links:** An array of link objects (same format as the links above)
+| Key | Meaning |
+| --- | --- |
+| `service` | One of the identifiers below; determines the URL pattern and Font Awesome icon. |
+| `handle` | Optional override of the top-level handle. Handles are inserted as supplied, without URL encoding. |
+| `url` | Optional complete profile URL; overrides the generated URL. Use this for other Mastodon instances or unusual profiles. |
 
-When using sections:
+These are the URL patterns implemented by this version; `{handle}` is replaced
+by the account's handle:
 
-* Empty sections (sections with no links) are automatically ignored
-* Any links in the top-level `links` array will be displayed in a separate "Other links" section after all other sections
-* If you don't use sections, links will be displayed as a flat list (the original behavior)
-* If you only have sections and no top-level links, the "Other links" section won't appear
+| Service | Generated URL |
+| --- | --- |
+| `facebook` | `https://facebook.com/{handle}` |
+| `x-twitter` | `https://twitter.com/{handle}` |
+| `instagram` | `https://instagram.com/{handle}` |
+| `tiktok` | `https://tiktok.com/@{handle}` |
+| `linkedin` | `https://linkedin.com/in/{handle}` |
+| `substack` | `https://{handle}.substack.com/` |
+| `github` | `https://github.com/{handle}` |
+| `medium` | `https://{handle}.medium.com/` |
+| `reddit` | `https://reddit.com/user/{handle}` |
+| `quora` | `https://quora.com/profile/{handle}` |
+| `mastodon` | `https://fosstodon.org/@{handle}` |
+| `threads` | `https://www.threads.net/@{handle}` |
+| `bluesky` | `https://bsky.app/profile/{handle}` |
+| `letterboxd` | `https://letterboxd.com/{handle}` |
+| `lastfm` | `https://last.fm/user/{handle}` |
+| `ko-fi` | `https://ko-fi.com/{handle}` |
 
-Example with sections:
+Use `x-twitter` rather than `twitter`. A custom `url` changes the destination
+but does not add an icon for an unsupported service. Social anchors include
+`rel="me"`.
 
-    "sections": [{
-      "title": "Books",
-      "links": [{
-        "title": "My Book Title",
-        "subtitle": "A great book",
-        "link": "https://example.com/book"
-      }]
-    }, {
-      "title": "Projects",
-      "links": [{
-        "title": "My Project",
-        "link": "https://example.com/project"
-      }]
-    }],
-    "links": [{
-      "title": "Contact",
-      "link": "mailto:me@example.com"
-    }]
+### Links
 
-## Demo
+Each object in `links`, including links inside a section, accepts:
 
-My links - [links.davecross.co.uk](https://links.davecross.co.uk/)
+| Key | Meaning |
+| --- | --- |
+| `title` | Required link text. |
+| `link` | Required destination URL; `mailto:` links work too. |
+| `subtitle` | Optional smaller text beneath the title. |
+| `new` | Optional truthy flag (`1` or `true`) that adds a red “New!” label. Defaults to false. |
+
+### Sections
+
+Add a top-level `sections` array to group links:
+
+```json
+"sections": [
+  {
+    "title": "Projects",
+    "links": [
+      { "title": "My project", "link": "https://example.com/project" }
+    ]
+  },
+  { "title": "Coming soon", "links": [] }
+],
+"links": [
+  { "title": "Contact", "link": "mailto:me@example.com" }
+]
+```
+
+This is a fragment to insert into the main JSON object. Non-empty sections
+appear in their input order. Empty sections are hidden. When at least one
+section has links, top-level links appear afterwards under “Other links”.
+When all sections are empty or `sections` is omitted, top-level links appear
+as a flat list. With no top-level links, “Other links” is omitted.
+
+Full examples are in
+[example/links.json](https://github.com/davorg-cpan/app-linksite/blob/main/example/links.json)
+and
+[example/links-with-sections.json](https://github.com/davorg-cpan/app-linksite/blob/main/example/links-with-sections.json).
+Their image filenames and analytics values are placeholders; supply your own
+images or clear those fields before building.
+
+## Commands and alternate input files
+
+```sh
+linksite            # build links.json into docs/
+linksite --help     # display usage
+linksite --version  # display installed version
+LINKSITE_DEBUG=1 linksite
+```
+
+**Current CLI limitation:** `--file` is advertised by the command's help but
+exits without generating a site. Positional filenames are not supported.
+For a different input filename, use the working Perl API:
+
+```sh
+perl -MApp::LinkSite -e 'App::LinkSite->new(file => "profile.json")->run'
+```
+
+You can also select a different output directory through the API:
+
+```sh
+perl -MApp::LinkSite -e 'App::LinkSite->new(file => "profile.json", out => "public")->run'
+```
+
+Even with a different input path, images and `CNAME` are still read from the
+current working directory. There are no CLI options for output directories
+or template directories.
+
+## Build with Docker or GitHub Actions
+
+To build with the image used by the sample workflow, run this from your
+content directory with Docker installed:
+
+```sh
+docker run --rm -v "$PWD:/links" davorg/links:latest linksite
+```
+
+The bind mount receives the generated `docs/`. The image's default command
+prints the installed module version; specify `linksite` to build. Files may be
+owned by the container user. See
+[docker/README.md](https://github.com/davorg-cpan/app-linksite/blob/main/docker/README.md)
+for image-building details.
+
+For GitHub Pages automation:
+
+1. Create a content repository with `links.json`, any images under `img/`,
+   and an optional `CNAME` file.
+2. Copy
+   [example/build.yml](https://github.com/davorg-cpan/app-linksite/blob/main/example/build.yml)
+   to `.github/workflows/build.yml` in that repository.
+3. Correct the sample's `push.branchs` spelling to `push.branches`. Add
+   `img/**` and `CNAME` to its `push.paths` if changes to those files should
+   also trigger a build. The sample currently watches only `links.json` and
+   the workflow itself.
+4. In the repository's Pages settings, select **GitHub Actions** as the source.
+5. Run the workflow manually from the Actions tab, or push a watched change.
+
+The sample runs `linksite` inside `davorg/links:latest`, uploads `docs/` as a
+Pages artifact, and deploys it in a separate job. It uses the released module
+in that image, not code from this source repository.
+
+**Hosting limitation:** the default template uses `/css/style.css` and
+`/img/...`, which are relative to the domain root. A project URL such as
+`https://username.github.io/my-links/` needs template changes for those assets
+to load. Prefer a custom domain or a root site at `https://username.github.io/`.
+Setting `site_url` alone does not change asset paths.
+
+## Troubleshooting and current limits
+
+| Symptom | What to check |
+| --- | --- |
+| Cannot read or decode the input | Run from the directory containing `links.json`; ensure it is valid JSON with the expected object and array shapes. There is no separate schema-validation command. |
+| Missing image / copy failure | The filename must exist under `img/` in the working directory. The examples do not ship image files. |
+| No output after using `--file` | Use the API command above or rename the input to `links.json`. |
+| Page has no local CSS or profile image | Preview through a web server at its root; check the hosting-path limitation above. |
+| Social icon or link is missing | Check the service identifier, profile handle, and whether the CDN stylesheet loads. |
+| Old files remain after a rebuild | The builder does not clean the output directory. Use a new output directory or remove obsolete generated files yourself. |
+
+The input JSON is copied into the published directory under its original
+basename. Keep credentials and other private data out of it. Input values
+are inserted into HTML without general escaping or sanitization, so use
+content you trust and review the generated page when including HTML or quotes.
+
+When `ga4` is set, the template uses that value in `gtag('config', ...)` but
+the script URL still contains the author's hard-coded measurement ID. Check
+or customize the template before relying on analytics.
+
+App::LinkSite is free software under the same terms as Perl itself. Changes
+are listed in
+[Changes.md](https://github.com/davorg-cpan/app-linksite/blob/main/Changes.md).

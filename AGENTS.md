@@ -1,0 +1,84 @@
+# Guidance for coding agents
+
+## Start here
+
+Read [README.md](README.md) for the user's JSON format and current limitations,
+then [CONTRIBUTING.md](CONTRIBUTING.md) for architecture and safe build commands.
+This is a Perl CPAN distribution that generates a static links page. There is
+no application server or Node build.
+
+## Find the right code
+
+- `bin/linksite`: CLI parsing and entry point.
+- `lib/App/LinkSite.pm`: JSON loading in `ADJUST`, object construction,
+  Template Toolkit setup, traversal, and file copying in `run`.
+- `lib/App/LinkSite/{Site,Link,Section,Social}.pm`: data and rendering helpers.
+  `Site` owns JSON-LD; `Link` and `Social` return HTML fragments.
+- `src/index.html.tt` and `src/css/style.css`: page layout and styling.
+- `t/`: Test::More suite; `t/links.json` is the common fixture.
+- `example/`: user configurations and a consumer deployment workflow.
+- `Makefile.PL`, `cpanfile`, `MANIFEST`: packaging and prerequisites.
+
+Use the existing Feature::Compat::Class style (`class`, `field`, `method`,
+`ADJUST`) and preserve support for Perl 5.26 unless the task changes that
+requirement. Object::Pad is part of the compatibility setup.
+
+## Verify changes
+
+From the repository root, run `prove -Ilib -v t` and `git diff --check`.
+For a fresh dependency setup, use the commands in CONTRIBUTING.md.
+The baseline suite has six files and 38 assertions; `t/basic.t` has a TODO
+source-directory check that may fail without failing the suite.
+
+The suite mostly checks constructors and readers. For CLI, template, or copy
+changes, also exercise the affected behavior in a temporary directory and
+inspect output. Source-template smoke builds must pass an explicit absolute
+`src`; installed File::ShareDir assets otherwise take precedence over the
+checkout even with `-Ilib`. CONTRIBUTING.md contains a complete recipe.
+
+## Avoid local data loss and misleading checks
+
+- The default output is `docs/`, which contains tracked documentation in
+  this repository. Use a temporary `out` when exercising generation.
+- `t/file-parameter.t` overwrites and deletes a root-level `links.json`.
+  Check for personal input there before running tests.
+- Image and `CNAME` inputs are relative to the working directory, regardless
+  of the JSON file's location. Use content fixtures in a temporary directory.
+- Output includes the original JSON and is not cleaned between builds.
+- Ignored `Makefile`, `MYMETA.*`, `blib/`, and tarballs may be stale. Edit
+  source files, not generated copies, and do not assume `blib` is current.
+- `docker/build` builds from a published CPAN release and pushes Docker Hub
+  tags. Do not use it as a local test or run it unless publication is requested.
+
+## Behavior worth preserving or deliberately changing
+
+- Missing social handles inherit the site handle. An explicit social URL
+  overrides URL generation; adding a service also requires a name and icon.
+- `new` is the Link constructor parameter, and `is_new` is its reader.
+- Only non-empty sections activate section layout. Top-level links then
+  appear under “Other links”; otherwise the display is a flat list.
+- `Site::all_links` returns a list with top-level links first, followed by
+  section links, and feeds JSON-LD's `relatedLink`.
+- Template files lose `.tt` and render under their basename at the output
+  root; ordinary assets keep their relative paths.
+- JSON input is trusted and HTML is not generally escaped. Review effects
+  on descriptions, link fragments, attributes, and JSON-LD when changing
+  rendering or escaping.
+
+Known issues are recorded in CONTRIBUTING.md: `--file` exits without building,
+assets use root-relative URLs, GA4 has a hard-coded loader ID, the consumer
+workflow has a `branchs` typo, and the distribution manifest omits some
+existing tests/examples. Do not mistake those limitations for working
+features. Fix them when in scope and update their documentation and coverage.
+
+## Keep documentation and packaging aligned
+
+`README.md` is the canonical user guide and the source for the active
+documentation website. `docs/README.md` points to it. The documentation
+workflow and `example/build.yml` deploy different things.
+
+Update examples and user docs for configuration or CLI changes. Update
+`Changes.md` for behavior changes. Keep dependencies consistent between
+`cpanfile` and `Makefile.PL`, and include new distribution files in `MANIFEST`.
+Versions live in the main module and all four model modules; do not bump
+them merely for routine documentation work.

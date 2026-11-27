@@ -40,6 +40,11 @@ jobs:
         uses: davorg/readme-to-index@v1
         with:
           output: _site/index.html
+      - name: Generate linktree/index.html
+        uses: davorg/readme-to-index@v1
+        with:
+          readme: LINKTREE.md
+          output: _site/linktree/index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:

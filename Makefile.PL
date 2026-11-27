@@ -20,6 +20,8 @@ WriteMakefile(
     PREREQ_PM    => {
         'JSON' => 0,
         'Template' => 0,
+        'URI' => 0,
+        'URI::Escape' => 0,
         'Path::Tiny' => '0.125',
         'File::Basename' => 0,
         'File::Find' => 0,

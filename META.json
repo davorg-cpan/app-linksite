@@ -45,6 +45,8 @@
             "Object::Pad" : "0",
             "Path::Tiny" : "0.125",
             "Template" : "0",
+            "URI" : "0",
+            "URI::Escape" : "0",
             "perl" : "5.026000"
          }
       },

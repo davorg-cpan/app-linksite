@@ -71,9 +71,9 @@ overwrites matching output files but does not remove old files.
 
 ## Configuration reference
 
-The input is one JSON object. The site-wide fields below are top-level keys;
-there is no separate `frontmatter` object. Use arrays of objects for `social`,
-`links`, and `sections`. Include `social: []` or `links: []` when you have no
+The input is one JSON object encoded as UTF-8. The site-wide fields below are
+top-level keys; there is no separate `frontmatter` object. Use arrays of
+objects for `social`, `links`, and `sections`. Include `social: []` or `links: []` when you have no
 entries; for a site containing only sections, use `links: []`.
 
 ### Site settings
@@ -89,6 +89,7 @@ entries; for a site containing only sections, use `links: []`.
 | `text_color` | Optional CSS color, for example `"#222222"`. Default body text is black. |
 | `background_color` | Optional CSS color, for example `"#fafafa"`. Default body background is white. |
 | `ga4` | Optional Google Analytics measurement ID, such as `G-EXAMPLE123`. Used for both the tag loader and configuration. Omit it or use an empty string to leave out analytics. |
+| `utm` | Optional UTM settings for content links. Omit it or set it to `false` for no global tracking; `{}` enables defaults. See [Link tracking](#link-tracking). |
 
 Color settings apply to the body; Bootstrap components and social icons have
 their own styles.
@@ -157,6 +158,59 @@ Each object in `links`, including links inside a section, accepts:
 | `link` | Required destination URL; `mailto:` links work too. |
 | `subtitle` | Optional smaller text beneath the title. |
 | `new` | Optional truthy flag (`1` or `true`) that adds a red “New!” label. Defaults to false. |
+| `utm` | Optional per-link UTM settings, merged over global settings; `false` or `null` disables tracking for this link. `{}` enables defaults even without global tracking. |
+
+### Link tracking
+
+UTM tracking is opt-in and currently unreleased. Existing configurations
+continue to generate their original destinations. To enable tracking for
+top-level and section links, add a top-level `"utm": {}`. This adds:
+
+| Parameter | Default |
+| --- | --- |
+| `utm_source` | `linksite` |
+| `utm_medium` | `referral` |
+| `utm_campaign` | `profile` |
+
+Override defaults globally or for an individual link using full `utm_*`
+parameter names. For example, this fragment changes the source for all
+content links and identifies one link separately:
+
+```json
+"utm": { "utm_source": "my-profile", "utm_campaign": "summer" },
+"links": [
+  {
+    "title": "Newsletter",
+    "link": "https://example.com/newsletter#subscribe",
+    "utm": { "utm_content": "newsletter" }
+  },
+  {
+    "title": "Untracked link",
+    "link": "https://example.com/plain",
+    "utm": false
+  }
+]
+```
+
+The first destination becomes
+`https://example.com/newsletter?utm_campaign=summer&utm_content=newsletter&utm_medium=referral&utm_source=my-profile#subscribe`.
+The second remains unchanged. An individual `"utm": {}` can also enable
+tracking when it is disabled globally. Within a settings object, an empty
+string or `null` omits that parameter; strings and numbers are supported,
+and values are percent-encoded as UTF-8.
+
+Existing URL parameters, including any existing UTM values, take precedence
+and are preserved with their original encoding and order. Fragments remain
+at the end. Only absolute `http://` and `https://` content links are tagged;
+relative links, `mailto:`, `tel:`, and social profile URLs keep their original
+destinations. The Perl `link` reader and JSON-LD keep the original URLs;
+`tracked_link` returns the click destination. Tagged anchor attributes are
+HTML-escaped.
+
+This feature adds URL parameters; the destination's analytics system must
+collect them. The page's `ga4` setting is separate and is not required for
+UTM tagging. See [Google's campaign URL guidance](https://support.google.com/analytics/answer/10917952?hl=en)
+and the complete [tracking example](https://github.com/davorg-cpan/app-linksite/blob/main/example/links-with-utm.json).
 
 ### Sections
 
@@ -227,7 +281,7 @@ or template directories.
 
 ### Custom templates
 
-Select a custom Template Toolkit source tree with an absolute `src` path:
+Select a custom UTF-8 Template Toolkit source tree with an absolute `src` path:
 
 ```sh
 perl -MApp::LinkSite -e 'App::LinkSite->new(file => "profile.json", src => "/absolute/path/to/templates", out => "public")->run'

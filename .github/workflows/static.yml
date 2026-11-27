@@ -45,6 +45,9 @@ jobs:
         with:
           readme: LINKTREE.md
           output: _site/linktree/index.html
+      - name: Fix link
+        run: |
+          perl -pi -e 's|".+LINKTREE.md"|"linktree/"|' _site/index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:

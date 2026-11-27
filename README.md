@@ -247,16 +247,18 @@ For GitHub Pages automation:
 2. Copy
    [example/build.yml](https://github.com/davorg-cpan/app-linksite/blob/main/example/build.yml)
    to `.github/workflows/build.yml` in that repository.
-3. Correct the sample's `push.branchs` spelling to `push.branches`. Add
-   `img/**` and `CNAME` to its `push.paths` if changes to those files should
-   also trigger a build. The sample currently watches only `links.json` and
-   the workflow itself.
+3. If your default branch is not `main`, change both `push.branches` and
+   the build job's `if` condition to use your branch name.
 4. In the repository's Pages settings, select **GitHub Actions** as the source.
-5. Run the workflow manually from the Actions tab, or push a watched change.
+5. Run the workflow manually from the Actions tab with the configured branch
+   selected, or push a watched change to that branch.
 
 The sample runs `linksite` inside `davorg/links:latest`, uploads `docs/` as a
 Pages artifact, and deploys it in a separate job. It uses the released module
 in that image, not code from this source repository.
+Pushes to the configured branch rebuild for changes to `links.json`, any
+file under `img/`, `CNAME`, or `.github/workflows/build.yml`. Manual runs
+on other branches skip the build and deployment.
 
 **Hosting limitation:** the default template uses `/css/style.css` and
 `/img/...`, which are relative to the domain root. A project URL such as

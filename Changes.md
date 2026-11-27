@@ -4,6 +4,9 @@
 
 ### Fixed
 
+- Correct the sample deployment workflow's `branches` filter and rebuild
+  for image or `CNAME` changes; skip manual deployments from other branches
+  (#28).
 - Use the configured GA4 measurement ID in both the Google tag loader URL
   and configuration call; cover configured and disabled analytics (#27).
 - Deploy the documentation site only from `main`, skipping feature-branch

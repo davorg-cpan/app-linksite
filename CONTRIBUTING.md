@@ -141,15 +141,19 @@ timestamp, so byte-for-byte HTML comparisons need to account for that.
 
 ## Verification and test gaps
 
-The current suite contains six files and 38 assertions. It covers model
-construction/readers, colors, sections, link aggregation, default paths,
+The suite covers model construction/readers, colors, sections, link
+aggregation, default paths,
 and the driver's custom input parameter. `t/basic.t` marks its source-path
 expectation as TODO because an installed share directory can take precedence.
 That TODO failure is not a suite failure.
 
-`t/file-parameter.t` copies a fixture to root-level `links.json` and unlinks
-it afterwards. Do not keep personal content at that path when running the
-suite. The suite currently does not exercise CLI generation, a full `run`,
+`t/file-parameter.t` uses a temporary content directory for the default input
+filename and restores the caller's working directory, including on an
+exception. `t/file-parameter-isolation.t` runs it from a separate content
+directory and checks that a pre-existing `links.json` remains byte-for-byte
+unchanged. Keep tests that create input/output files isolated this way.
+
+The suite currently does not exercise CLI generation, a full `run`,
 rendered HTML, or most social URL patterns. A passing suite alone will not
 catch a template or command-line regression.
 
@@ -186,7 +190,7 @@ These describe the checked-in implementation, rather than intended behavior:
 - The social fixture uses `service => 'twitter'` with an explicit URL and
   only tests readers. The supported service key for generated icons/URLs is
   `x-twitter`.
-- `MANIFEST` does not currently include `t/section.t`, `t/file-parameter.t`,
+- `MANIFEST` does not currently include `t/section.t`
   or `example/links-with-sections.json`. Audit packaged tests and examples
   before a release; a source-checkout test run covers more than the tarball.
 - Some configure-prerequisite entries in `Makefile.PL` use `>=` where the

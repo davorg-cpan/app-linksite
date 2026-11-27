@@ -162,7 +162,7 @@ Each object in `links`, including links inside a section, accepts:
 
 ### Link tracking
 
-UTM tracking is opt-in and currently unreleased. Existing configurations
+UTM tracking is available from 0.2.0 and is opt-in. Existing configurations
 continue to generate their original destinations. To enable tracking for
 top-level and section links, add a top-level `"utm": {}`. This adds:
 
@@ -278,9 +278,6 @@ Select a different output directory through the Perl API:
 perl -MApp::LinkSite -e 'App::LinkSite->new(file => "profile.json", out => "public")->run'
 ```
 
-The CLI correction is currently unreleased. In release 0.1.3, use the Perl
-API above to select a custom input file.
-
 Even with a different input path, images and `CNAME` are still read from the
 current working directory. There are no CLI options for output directories
 or template directories.
@@ -298,9 +295,9 @@ final `.tt` suffix: `news/index.html.tt` generates `public/news/index.html`,
 while `index.html.tt` generates `public/index.html`. Other assets keep their
 relative paths and are copied unchanged.
 
-The nested-template correction is currently unreleased; release 0.1.3
-flattens template output into the output root. Build into a fresh output
-directory after updating, since old generated files are not removed.
+When upgrading from a version older than 0.2.0, build into a fresh output
+directory to avoid stale flattened template output. Old generated files
+are not removed automatically.
 
 ## Build with Docker or GitHub Actions
 
@@ -360,13 +357,6 @@ The visible profile description still supports simple HTML and converts
 newlines to line breaks. Other rendered fields have no general escaping or
 sanitization, so use content you trust and review the generated page when
 including HTML or quotes.
-
-The metadata correction is currently unreleased. Release 0.1.3 does not
-escape these attributes, so apostrophes or quotes can truncate metadata.
-
-The GA4 loader correction is currently unreleased. Release 0.1.3 uses a
-hard-coded measurement ID in the script URL; customize that release's
-template before relying on analytics.
 
 App::LinkSite uses Semantic Versioning (SemVer), with release numbers in
 `MAJOR.MINOR.PATCH` form. See the

@@ -18,7 +18,7 @@ available there and receives the output in `docs/`. Generated files may be
 owned by the container user. Without the final `linksite` argument, the
 default command prints the installed module version instead of building.
 
-The release helper also creates version tags such as `davorg/links:links_0.1.3`.
+The release helper also creates version tags such as `davorg/links:links_0.2.0`.
 Use a version tag when you need to select a particular release. See
 [the user guide](../README.md) for the JSON format and hosting limitations.
 
@@ -27,7 +27,7 @@ Use a version tag when you need to select a particular release. See
 From the repository root, with Docker and network access available:
 
 ```sh
-docker build --build-arg LINKSITE_VERSION=0.1.3 -f docker/Dockerfile -t linksite-local .
+docker build --build-arg LINKSITE_VERSION=0.2.0 -f docker/Dockerfile -t linksite-local .
 docker run --rm linksite-local
 ```
 

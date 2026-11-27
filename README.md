@@ -8,6 +8,10 @@ The page includes a profile, social icons, links, optional section headings,
 Open Graph metadata, and JSON-LD structured data. See the
 [live example](https://links.davecross.co.uk/).
 
+See [LINKTREE.md](https://github.com/davorg-cpan/app-linksite/blob/main/LINKTREE.md)
+for a feature comparison with Linktree and the differences in hosting,
+customization, and automation.
+
 For development and architecture, see
 [CONTRIBUTING.md](https://github.com/davorg-cpan/app-linksite/blob/main/CONTRIBUTING.md).
 Coding agents should start with

@@ -24,6 +24,7 @@ t/file-parameter-isolation.t
 t/file-parameter.t
 t/link.t
 t/links.json
+t/metadata.t
 t/prerequisites.t
 t/section.t
 t/site.t

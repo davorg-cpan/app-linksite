@@ -46,7 +46,8 @@ The suite checks constructors/readers and end-to-end CLI builds in temporary
 directories. `t/cli.t` covers file selection, help/version, and option errors
 using the checkout's templates. `t/analytics.t` checks rendered GA4 IDs and
 disabled analytics. `t/template-paths.t` checks nested template output and
-asset copying. For template or copy changes, also inspect output.
+asset copying. `t/metadata.t` checks attribute escaping and preserves visible
+description HTML. For template or copy changes, also inspect output.
 Source-template smoke builds must pass an explicit absolute
 `src`; installed File::ShareDir assets otherwise take precedence over the
 checkout even with `-Ilib`. CONTRIBUTING.md contains a complete recipe.
@@ -78,9 +79,12 @@ checkout even with `-Ilib`. CONTRIBUTING.md contains a complete recipe.
 - Template files lose only the final `.tt` suffix and retain their path
   relative to `src`; ordinary assets retain their relative paths too.
   Directories ending in `.tt` remain directories.
-- JSON input is trusted and HTML is not generally escaped. Review effects
-  on descriptions, link fragments, attributes, and JSON-LD when changing
-  rendering or escaping.
+- Open Graph and page-description metadata attributes are HTML-escaped in
+  double quotes. The visible description retains simple HTML and converts
+  newlines to `<br>`; keep those contexts separate when changing escaping.
+- JSON input is trusted and other HTML is not generally escaped. Review
+  effects on descriptions, link fragments, attributes, and JSON-LD when
+  changing rendering or escaping.
 
 Known issues are recorded in CONTRIBUTING.md, including root-relative asset
 URLs. Do not mistake those limitations for working features. Fix them when

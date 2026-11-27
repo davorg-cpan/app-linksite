@@ -48,7 +48,7 @@ class App::LinkSite {
   field $tt;
 
   ADJUST {
-    my $json = path($file)->slurp;
+    my $json = path($file)->slurp_utf8;
     my $data = JSON->new->decode($json);
 
     $ga4 = $data->{ga4} // '';
@@ -56,6 +56,7 @@ class App::LinkSite {
     $tt = Template->new({
       # Templates in the CPAN distro directory
       INCLUDE_PATH => $src,
+      ENCODING => 'utf8',
       # Output in the data directory
       OUTPUT_PATH  => $out,
       VARIABLES    => {
@@ -69,12 +70,19 @@ class App::LinkSite {
       App::LinkSite::Social->new(%$_)
     } $data->{social}->@* ];
 
-    my $links = [ map { App::LinkSite::Link->new(%$_) } $data->{links}->@* ];
+    my $make_link = sub {
+      my ($config) = @_;
+      my $utm = exists $config->{utm} ? $config->{utm} : $data->{utm};
+      $utm = { $data->{utm}->%*, %$utm }
+        if ref $data->{utm} eq 'HASH' && ref $utm eq 'HASH';
+      return App::LinkSite::Link->new(%$config, utm => $utm);
+    };
+    my $links = [ map { $make_link->($_) } $data->{links}->@* ];
 
     my $sections = [];
     if ($data->{sections}) {
       $sections = [ map {
-        my $section_links = [ map { App::LinkSite::Link->new(%$_) } $_->{links}->@* ];
+        my $section_links = [ map { $make_link->($_) } $_->{links}->@* ];
         App::LinkSite::Section->new(
           title => $_->{title},
           links => $section_links,
@@ -149,7 +157,7 @@ suffix removed. Other files are copied unchanged at their relative paths.
     if (-f && /\.tt\z/) {
       my $output = $path =~ s/\.tt\z//r;
       debug("Process $path to", $output);
-      $tt->process($path, { site => $self->site }, $output)
+      $tt->process($path, { site => $self->site }, $output, { binmode => ':encoding(UTF-8)' })
         or die $tt->error;
     } else {
       if (-d) {

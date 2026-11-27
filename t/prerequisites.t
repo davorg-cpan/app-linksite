@@ -63,6 +63,8 @@ is_deeply(
 my $runtime = $generated->requirements_for('runtime', 'requires')->as_string_hash;
 is($runtime->{'Path::Tiny'}, '0.125', 'Path::Tiny minimum version is advertised');
 ok(exists $runtime->{'File::Basename'}, 'File::Basename is a runtime prerequisite');
+ok(exists $runtime->{'URI'}, 'URI is a runtime prerequisite');
+ok(exists $runtime->{'URI::Escape'}, 'URI::Escape is a runtime prerequisite');
 is($runtime->{perl}, '5.026000', 'Perl 5.26 minimum version is advertised');
 is($generated->requirements_for('test', 'requires')->as_string_hash->{'Test::More'},
     '0', 'Test::More is a test prerequisite');

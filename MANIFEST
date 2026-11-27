@@ -6,6 +6,7 @@ docker/README.md
 example/build.yml
 example/links.json
 example/links-with-sections.json
+example/links-with-utm.json
 lib/App/LinkSite.pm
 lib/App/LinkSite/Link.pm
 lib/App/LinkSite/Site.pm
@@ -30,3 +31,4 @@ t/section.t
 t/site.t
 t/social.t
 t/template-paths.t
+t/utm.t

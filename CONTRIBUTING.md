@@ -86,18 +86,21 @@ multiline `perl -e` arguments do not execute reliably on Windows.
 
 1. `bin/linksite` parses options and normally calls
    `App::LinkSite->new(...)->run`.
-2. Construction immediately reads and decodes the input in `ADJUST`. It
+2. Construction immediately reads UTF-8 JSON and decodes it in `ADJUST`. It
    takes `ga4` from JSON, creates Template Toolkit with `src` as `INCLUDE_PATH`
    and `out` as `OUTPUT_PATH`, and exposes `ga4` and `version` to templates.
-3. Missing social handles inherit the top-level `handle` using `//=`. Social,
+3. Content links inherit top-level `utm` settings unless their own `utm`
+   disables them; per-link objects merge over the global object. Missing
+   social handles inherit the top-level `handle` using `//=`. Social,
    link, and section data become `Social`, `Link`, and `Section` objects.
    A `Site` object collects these and the profile fields.
 4. `run` creates `out` and traverses `src` with File::Find and `no_chdir`.
    Each `.tt` file is processed with the additional template variable `site`.
    Output names remove only the final `.tt` suffix, preserving the path
    relative to `src`: `news/index.html.tt` renders as `out/news/index.html`.
-   Other files and directories preserve their relative paths, including
-   directory names ending in `.tt`.
+   Templates are read and output pages written as UTF-8. Other files and
+   directories preserve their relative paths, including directory names
+   ending in `.tt`.
 5. The two configured images are copied from the working directory's `img/`
    into `out/img/`. A working-directory `CNAME`, if present, is copied next.
    Finally the original input file is copied into `out` under its basename.
@@ -141,6 +144,15 @@ with a Person `mainEntity` and social URLs in `sameAs`.
 `Link::mk_link` returns the entire `<li>` containing the anchor and optional
 subtitle. The constructor parameter `new` is stored in `$new_link` and read
 through `is_new`; CSS renders the visible label for the `new-link` class.
+`Link::tracked_link` adds opt-in UTM parameters to absolute HTTP(S) click
+destinations; `link` and JSON-LD remain canonical. An empty UTM object enables
+source `linksite`, medium `referral`, campaign `profile`, and content from a
+lowercase title slug. Supplied values override those defaults, and null/empty
+parameter values are omitted.
+Existing query keys win, including percent-encoded keys and bare parameters.
+URI is used for URL parsing and URI::Escape for UTF-8 value encoding; appended
+parameters do not rewrite existing query bytes. Only tracked anchors get
+attribute escaping in this path. Social profile URLs are not tagged.
 
 `Social::mk_social_link` returns an explicit `url` first. Otherwise it finds
 the service pattern, substitutes `XXXX` for subdomain-based profiles, or
@@ -201,6 +213,10 @@ metadata attribute escaping for apostrophes, double quotes, ampersands, and
 markup, alongside the visible description's HTML and newline handling.
 It accepts literal or entity-encoded apostrophes across Template Toolkit
 versions; both are valid inside double-quoted attributes.
+`t/utm.t` checks opt-in defaults, title slugs and content overrides,
+global/per-link inheritance, opt-out, existing queries/fragments, UTF-8
+encoding and rendering, unsupported URL
+schemes, invalid settings, canonical JSON-LD, and unchanged copied input.
 Most social URL patterns and detailed HTML rendering remain untested; a
 passing suite alone will not catch every template regression.
 
@@ -255,9 +271,9 @@ combinations, including asset-only pushes and manual runs on other branches.
 
 Keep `MANIFEST` current for files that must ship. Use `make distcheck` to
 review its warnings, then `make dist` to build a release archive. Check that
-the archive contains the full `t/` suite and its fixtures, plus both flat
-and sectioned configuration examples. Extract it into a temporary directory
-and run `perl Makefile.PL`, `make`, and `make test` there before releasing;
+the archive contains the full `t/` suite and its fixtures, plus the flat,
+sectioned, and UTM configuration examples. Extract it into a temporary
+directory and run `perl Makefile.PL`, `make`, and `make test` there before releasing;
 a passing checkout suite alone does not verify packaged files.
 Repository-only CI and docs files may intentionally be excluded.
 

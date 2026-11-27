@@ -48,6 +48,9 @@ using the checkout's templates. `t/analytics.t` checks rendered GA4 IDs and
 disabled analytics. `t/template-paths.t` checks nested template output and
 asset copying. `t/metadata.t` checks attribute escaping and preserves visible
 description HTML. For template or copy changes, also inspect output.
+`t/utm.t` covers tracking settings, URL preservation, and UTF-8 text. JSON
+and templates are read and generated pages written as UTF-8; preserve that
+encoding through the build pipeline.
 Source-template smoke builds must pass an explicit absolute
 `src`; installed File::ShareDir assets otherwise take precedence over the
 checkout even with `-Ilib`. CONTRIBUTING.md contains a complete recipe.
@@ -72,6 +75,13 @@ checkout even with `-Ilib`. CONTRIBUTING.md contains a complete recipe.
 - Missing social handles inherit the site handle. An explicit social URL
   overrides URL generation; adding a service also requires a name and icon.
 - `new` is the Link constructor parameter, and `is_new` is its reader.
+- UTM tracking is opt-in for content links. Per-link objects merge over global
+  settings; false/null opts out. Existing URL parameters win. `tracked_link`
+  is the click destination, while `link` and JSON-LD remain canonical. Social
+  URLs are unchanged. Declare URI and URI::Escape as runtime prerequisites.
+  Default `utm_content` is a lowercase title slug with non-letter/number
+  runs replaced by hyphens. Empty slugs are omitted; explicit settings or
+  existing URL parameters take precedence.
 - Only non-empty sections activate section layout. Top-level links then
   appear under “Other links”; otherwise the display is a flat list.
 - `Site::all_links` returns a list with top-level links first, followed by

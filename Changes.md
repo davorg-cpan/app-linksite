@@ -2,8 +2,17 @@
 
 ## Unreleased
 
+### Added
+
+- Add opt-in UTM parameters for content links, with configurable defaults,
+  title-slug defaults for `utm_content`, global and per-link settings, and
+  per-link opt-out. Preserve existing query parameters, fragments, canonical
+  URLs, and social profile URLs (#25).
+
 ### Fixed
 
+- Read JSON and templates and write generated pages as UTF-8 so non-ASCII
+  campaign values and page text are encoded correctly (#25).
 - Escape Open Graph and page-description metadata attributes so names and
   descriptions containing quotes or ampersands remain intact. Preserve HTML
   in the visible description (#32).

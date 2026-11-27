@@ -4,6 +4,8 @@
 
 ### Fixed
 
+- Include the section test and sectioned configuration example in CPAN
+  distributions (#30).
 - Preserve relative directories when rendering templates, avoiding output
   collisions between matching basenames. Treat directories ending in `.tt`
   as directories rather than template files (#33).

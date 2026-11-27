@@ -42,9 +42,10 @@ including minimum versions, and agrees with committed bootstrap metadata.
 `t/basic.t` has a TODO source-directory check that may fail without failing
 the suite.
 
-The suite mostly checks constructors and readers. For CLI, template, or copy
-changes, also exercise the affected behavior in a temporary directory and
-inspect output. Source-template smoke builds must pass an explicit absolute
+The suite checks constructors/readers and end-to-end CLI builds in temporary
+directories. `t/cli.t` covers file selection, help/version, and option errors
+using the checkout's templates. For template or copy changes, also inspect
+output. Source-template smoke builds must pass an explicit absolute
 `src`; installed File::ShareDir assets otherwise take precedence over the
 checkout even with `-Ilib`. CONTRIBUTING.md contains a complete recipe.
 
@@ -78,10 +79,10 @@ checkout even with `-Ilib`. CONTRIBUTING.md contains a complete recipe.
   on descriptions, link fragments, attributes, and JSON-LD when changing
   rendering or escaping.
 
-Known issues are recorded in CONTRIBUTING.md: `--file` exits without building,
-assets use root-relative URLs, GA4 has a hard-coded loader ID, the consumer
-workflow has a `branchs` typo, and the distribution manifest omits some
-existing tests/examples. Do not mistake those limitations for working
+Known issues are recorded in CONTRIBUTING.md: assets use root-relative URLs,
+GA4 has a hard-coded loader ID, the consumer workflow has a `branchs` typo,
+and the distribution manifest omits some existing tests/examples. Do not
+mistake those limitations for working
 features. Fix them when in scope and update their documentation and coverage.
 
 ## Keep documentation and packaging aligned

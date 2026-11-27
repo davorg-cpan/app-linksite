@@ -179,9 +179,13 @@ exception. `t/file-parameter-isolation.t` runs it from a separate content
 directory and checks that a pre-existing `links.json` remains byte-for-byte
 unchanged. Keep tests that create input/output files isolated this way.
 
-The suite currently does not exercise CLI generation, a full `run`,
-rendered HTML, or most social URL patterns. A passing suite alone will not
-catch a template or command-line regression.
+`t/cli.t` exercises actual CLI generation from default and custom input files,
+including paths with spaces and the filename `0`. It checks rendered input,
+CSS, and the published JSON, along with help/version behavior and option
+errors. Its temporary runner selects the checkout's templates through
+File::ShareDir so an installed distribution cannot mask template changes.
+Most social URL patterns and detailed HTML rendering remain untested; a
+passing suite alone will not catch every template regression.
 
 For rendering or asset changes, also build into a temporary directory and
 check `index.html`, `css/style.css`, configured images, copied input, and
@@ -202,9 +206,6 @@ git status --short
 
 These describe the checked-in implementation, rather than intended behavior:
 
-- `bin/linksite` exits whenever any recognized option is set. This makes
-  `--help` and `--version` work but prevents `--file` from reaching the build.
-  The existing custom-file test exercises the constructor only.
 - Local CSS and profile images use domain-root paths, so subpath hosting
   needs template changes. `site_url` is only used for Open Graph metadata;
   it is not inferred or normalized, and its image URL concatenation needs

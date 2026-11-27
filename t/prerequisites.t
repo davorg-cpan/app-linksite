@@ -32,7 +32,8 @@ unlike($diagnostics, qr/Undefined requirement|Warning: prerequisite\s/,
     or diag $diagnostics;
 
 my $metadata_file = $work->child('MYMETA.json');
-ok($metadata_file->is_file, 'configuration writes MYMETA.json');
+ok($metadata_file->is_file, 'configuration writes MYMETA.json')
+    or diag $diagnostics, explain([map { "$_" } $work->children]);
 BAIL_OUT('Cannot check prerequisites without generated metadata')
     unless $metadata_file->is_file;
 

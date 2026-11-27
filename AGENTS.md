@@ -80,11 +80,10 @@ checkout even with `-Ilib`. CONTRIBUTING.md contains a complete recipe.
   on descriptions, link fragments, attributes, and JSON-LD when changing
   rendering or escaping.
 
-Known issues are recorded in CONTRIBUTING.md: assets use root-relative URLs,
-the consumer workflow has a `branchs` typo, and the distribution manifest
-omits some existing tests/examples. Do not mistake those limitations for
-working features. Fix them when in scope and update their documentation and
-coverage.
+Known issues are recorded in CONTRIBUTING.md: assets use root-relative URLs
+and the distribution manifest omits some existing tests/examples. Do not
+mistake those limitations for working features. Fix them when in scope and
+update their documentation and coverage.
 
 ## Keep documentation and packaging aligned
 
@@ -93,6 +92,9 @@ documentation website. `docs/README.md` points to it. The documentation
 workflow and `example/build.yml` deploy different things.
 The documentation workflow deploys only from `main`; keep pull requests and
 manual runs on other branches from deploying to Pages.
+The consumer workflow watches JSON, images, `CNAME`, and its installed path
+on `main`. Keep its push branch filter and build job guard aligned so manual
+runs on feature branches also skip deployment.
 
 Update examples and user docs for configuration or CLI changes. Update
 `Changes.md` for behavior changes. Declare dependencies in `Makefile.PL`

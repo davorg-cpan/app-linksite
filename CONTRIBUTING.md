@@ -213,8 +213,6 @@ These describe the checked-in implementation, rather than intended behavior:
   needs template changes. `site_url` is only used for Open Graph metadata;
   it is not inferred or normalized, and its image URL concatenation needs
   a trailing `/`.
-- The consumer workflow spells `branches` as `branchs`, and its path filter
-  omits images and `CNAME`.
 - The social fixture uses `service => 'twitter'` with an explicit URL and
   only tests readers. The supported service key for generated icons/URLs is
   `x-twitter`.
@@ -236,6 +234,13 @@ and `CNAME` belong to the older Jekyll arrangement; `docs/README.md` points
 readers to the canonical guide instead of maintaining a second copy.
 The consumer workflow in `example/build.yml` deploys generated link pages
 and is separate from this repository's documentation workflow.
+Its push filters watch `links.json`, `img/**`, `CNAME`, and the workflow's
+installed path, `.github/workflows/build.yml`, on `main`. Manual dispatch
+is preserved, with the build job guarded to run only on `main`; the dependent
+deployment job skips when the build skips. Consumers with another default
+branch must update both the push branch filter and the build job condition.
+Validate changes to this sample with actionlint and check the branch/path
+combinations, including asset-only pushes and manual runs on other branches.
 
 Keep `MANIFEST` current for files that must ship. Use `make distcheck` to
 review its warnings and inspect

@@ -1,5 +1,12 @@
 # Change Log
 
+## Unreleased
+
+### Added
+
+- Add a sourced Linktree comparison covering feature gaps, self-hosting,
+  template/source control, and local automation advantages.
+
 ## [0.2.0] - 2026-11-27
 
 ### Added

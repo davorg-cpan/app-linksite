@@ -225,6 +225,23 @@ Even with a different input path, images and `CNAME` are still read from the
 current working directory. There are no CLI options for output directories
 or template directories.
 
+### Custom templates
+
+Select a custom Template Toolkit source tree with an absolute `src` path:
+
+```sh
+perl -MApp::LinkSite -e 'App::LinkSite->new(file => "profile.json", src => "/absolute/path/to/templates", out => "public")->run'
+```
+
+Template files retain their source-relative directories and lose only the
+final `.tt` suffix: `news/index.html.tt` generates `public/news/index.html`,
+while `index.html.tt` generates `public/index.html`. Other assets keep their
+relative paths and are copied unchanged.
+
+The nested-template correction is currently unreleased; release 0.1.3
+flattens template output into the output root. Build into a fresh output
+directory after updating, since old generated files are not removed.
+
 ## Build with Docker or GitHub Actions
 
 To build with the image used by the sample workflow, run this from your

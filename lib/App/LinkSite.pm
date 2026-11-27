@@ -133,6 +133,9 @@ The main driver method for the process.
 
 A method is called for each file that is found in the `src` directory.
 
+Template files retain their source-relative path with only the final C<.tt>
+suffix removed. Other files are copied unchanged at their relative paths.
+
 =cut
 
   method do_this {
@@ -143,9 +146,10 @@ A method is called for each file that is found in the `src` directory.
 
     my $path = $File::Find::name =~ s|^$src/||r;
 
-    if (/\.tt$/) {
-      debug("Process $path to", basename($path, '.tt'));
-      $tt->process($path, { site => $self->site }, basename($path, '.tt'))
+    if (-f && /\.tt\z/) {
+      my $output = $path =~ s/\.tt\z//r;
+      debug("Process $path to", $output);
+      $tt->process($path, { site => $self->site }, $output)
         or die $tt->error;
     } else {
       if (-d) {

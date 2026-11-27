@@ -94,9 +94,10 @@ multiline `perl -e` arguments do not execute reliably on Windows.
    A `Site` object collects these and the profile fields.
 4. `run` creates `out` and traverses `src` with File::Find and `no_chdir`.
    Each `.tt` file is processed with the additional template variable `site`.
-   Output template names use `basename($path, '.tt')`, so nested templates
-   currently render at the output root. Other files and directories preserve
-   their relative paths.
+   Output names remove only the final `.tt` suffix, preserving the path
+   relative to `src`: `news/index.html.tt` renders as `out/news/index.html`.
+   Other files and directories preserve their relative paths, including
+   directory names ending in `.tt`.
 5. The two configured images are copied from the working directory's `img/`
    into `out/img/`. A working-directory `CNAME`, if present, is copied next.
    Finally the original input file is copied into `out` under its basename.
@@ -187,6 +188,9 @@ File::ShareDir so an installed distribution cannot mask template changes.
 `t/analytics.t` builds pages with explicit checkout templates and temporary
 inputs/outputs. It checks that the GA4 loader and configuration use the same
 supplied ID, and that omitted, empty, or null IDs emit no analytics code.
+`t/template-paths.t` uses a temporary source tree to check nested templates,
+matching basenames in different directories, final-suffix removal, and
+unchanged copying of text/binary assets and input JSON.
 Most social URL patterns and detailed HTML rendering remain untested; a
 passing suite alone will not catch every template regression.
 

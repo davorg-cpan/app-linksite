@@ -28,6 +28,8 @@ subtest 'metadata preserves quotes, ampersands, and markup as text' => sub {
         og_image => q{preview&"card".png},
     );
     my $metadata = join "\n", grep { /<meta / } split /\n/, $html;
+    # Both forms are valid in double quotes; newer TT versions encode apostrophes.
+    $metadata =~ s/&#39;/'/g;
     for my $expected (
         q{<meta property="og:title" content="Pat &quot;P&quot; O'Neil &amp; Co / @pat&quot;&amp;team">},
         q{<meta property="og:description" content="I've built &quot;Things&quot; &amp; &lt;em&gt;more&lt;/em&gt; Second line">},

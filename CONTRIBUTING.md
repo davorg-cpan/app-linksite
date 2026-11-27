@@ -199,6 +199,8 @@ platforms; Template Toolkit reads template bytes without newline conversion.
 `t/metadata.t` renders the checkout's page template in memory and checks
 metadata attribute escaping for apostrophes, double quotes, ampersands, and
 markup, alongside the visible description's HTML and newline handling.
+It accepts literal or entity-encoded apostrophes across Template Toolkit
+versions; both are valid inside double-quoted attributes.
 Most social URL patterns and detailed HTML rendering remain untested; a
 passing suite alone will not catch every template regression.
 

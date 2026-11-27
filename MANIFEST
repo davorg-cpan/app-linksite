@@ -1,7 +1,6 @@
 AGENTS.md
 bin/linksite
 CONTRIBUTING.md
-cpanfile
 Changes.md
 docker/README.md
 example/build.yml
@@ -21,5 +20,6 @@ t/file-parameter-isolation.t
 t/file-parameter.t
 t/link.t
 t/links.json
+t/prerequisites.t
 t/site.t
 t/social.t

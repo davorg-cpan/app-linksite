@@ -19,7 +19,7 @@ describes the implementation and how to verify changes locally.
 | `t/` | Tests using Test::More and a JSON fixture. |
 | `example/` | Flat and sectioned configurations, plus a consumer's Pages workflow. |
 | `docker/` | Image definition and a build-and-push helper for published CPAN versions. |
-| `Makefile.PL`, `cpanfile`, `MANIFEST` | Distribution metadata, dependencies, and packaged files. |
+| `Makefile.PL`, `MANIFEST` | Distribution metadata, dependencies, and packaged files. |
 | `.github/workflows/perltest.yml` | Reusable CI jobs for tests, coverage, Perl::Critic, and complexity. |
 | `.github/workflows/static.yml` | Publishes this project's README as its documentation website. |
 | `docs/` | Tracked documentation-site files from the Jekyll setup; also the default output path when generating a link site. |
@@ -44,9 +44,14 @@ For a quick run against source modules without rebuilding:
 prove -Ilib -v t
 ```
 
-`cpanfile` lists prerequisites; `Makefile.PL` supplies MakeMaker/CPAN metadata
-and uses File::ShareDir::Install to install `src/` as distribution share files.
-Keep both dependency declarations consistent when changing requirements.
+`Makefile.PL` is the source for CPAN metadata and all dependency declarations:
+`CONFIGURE_REQUIRES`, `PREREQ_PM`, `TEST_REQUIRES`, and `MIN_PERL_VERSION`.
+It uses File::ShareDir::Install to install `src/` as distribution share files.
+`cpanm --installdeps .` reads this distribution's requirements without a
+separate dependency file. `t/prerequisites.t` configures a fresh temporary
+distribution and checks that generated metadata retains the required modules
+and minimum versions.
+
 `Makefile`, `MYMETA.*`, `blib/`, `pm_to_blib`, and release tarballs are generated
 and ignored by Git. They may already exist and may be stale.
 
@@ -193,11 +198,6 @@ These describe the checked-in implementation, rather than intended behavior:
 - `MANIFEST` does not currently include `t/section.t`
   or `example/links-with-sections.json`. Audit packaged tests and examples
   before a release; a source-checkout test run covers more than the tarball.
-- Some configure-prerequisite entries in `Makefile.PL` use `>=` where the
-  hash needs `=>`. `perl Makefile.PL` can therefore warn about an undefined
-  requirement and a prerequisite with an empty name. In the inspected
-  environment it still generated the Makefile and `make test` passed.
-  Recheck generated metadata when maintaining dependencies.
 
 Keep documentation accurate if these issues are fixed; do not preserve a
 bug merely because it is documented.

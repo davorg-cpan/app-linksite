@@ -4,8 +4,15 @@
 
 ### Fixed
 
+- Correct configure prerequisite metadata, require Path::Tiny 0.125, and
+  declare File::Basename and Test::More in Makefile.PL (#29).
 - Isolate the default input-file test in a temporary directory so running
   the test suite preserves an existing `links.json` (#31).
+
+### Removed
+
+- Remove the legacy cpanfile; Makefile.PL is the dependency source for the
+  CPAN distribution (#29).
 
 ## [0.1.3] - 2026-08-17
 

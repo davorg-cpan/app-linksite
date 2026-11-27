@@ -16,12 +16,15 @@ $root->child('lib', 'App', 'LinkSite.pm')->copy(
 );
 $work->child('src')->mkpath;
 
-my $output;
-my $pid = open3(undef, $output, $output, $^X, '-e', q{
+my $runner = $work->child('configure.pl');
+$runner->spew(q{
     chdir $ARGV[0] or die "Cannot enter $ARGV[0]: $!";
-    exec {$^X} $^X, 'Makefile.PL';
-    die "Cannot configure distribution: $!";
-}, "$work");
+    my $status = system {$^X} $^X, 'Makefile.PL';
+    die "Cannot configure distribution: $!" if $status == -1;
+    exit($status == 0 ? 0 : 1);
+});
+my $output;
+my $pid = open3(undef, $output, $output, $^X, "$runner", "$work");
 my $diagnostics = do { local $/; <$output> };
 close $output;
 waitpid $pid, 0;
@@ -32,7 +35,8 @@ unlike($diagnostics, qr/Undefined requirement|Warning: prerequisite\s/,
     or diag $diagnostics;
 
 my $metadata_file = $work->child('MYMETA.json');
-ok($metadata_file->is_file, 'configuration writes MYMETA.json');
+ok($metadata_file->is_file, 'configuration writes MYMETA.json')
+    or diag $diagnostics, explain([map { "$_" } $work->children]);
 BAIL_OUT('Cannot check prerequisites without generated metadata')
     unless $metadata_file->is_file;
 

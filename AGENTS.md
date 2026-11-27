@@ -25,6 +25,13 @@ Use the existing Feature::Compat::Class style (`class`, `field`, `method`,
 `ADJUST`) and preserve support for Perl 5.26 unless the task changes that
 requirement. Object::Pad is part of the compatibility setup.
 
+Windows CI uses Strawberry Perl's bundled toolchain and the make program
+reported by Perl's Config. Keep all supported versions in the matrix and
+preserve independent failure logs. The setup action's module cache is
+disabled because this distribution has no cpanfile to key it on.
+Use temporary script files for subprocess test helpers instead of multiline
+`perl -e` arguments, and check that child tests actually emit a test plan.
+
 ## Verify changes
 
 From the repository root, run `prove -Ilib -v t` and `git diff --check`.

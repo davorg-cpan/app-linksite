@@ -70,6 +70,18 @@ Perls. Follow the existing class style rather than introducing a second
 object system. CI currently declares Perl 5.26 through 5.40 in two-version
 steps; check the workflow when changing language features or dependencies.
 
+Windows CI uses Strawberry Perl with its bundled compiler and libraries.
+The earlier custom Perl/toolchain combination built XS::Parse::Keyword
+with an incompatible interpreter ABI on Perl 5.40, which prevented
+Object::Pad from configuring. The Windows matrix uses PowerShell, disables
+the setup action's module cache (which is keyed on a cpanfile), and invokes
+the make program reported by Perl's Config, supporting both dmake and gmake.
+Fail-fast is disabled for these jobs so all eight Perl versions finish.
+Failed installations upload version-specific CPAN build logs from
+`PERL_CPANM_HOME`. Linux and macOS continue using the shared test workflow.
+Subprocess-based tests write their helper programs to temporary scripts;
+multiline `perl -e` arguments do not execute reliably on Windows.
+
 ## Build lifecycle
 
 1. `bin/linksite` parses options and normally calls

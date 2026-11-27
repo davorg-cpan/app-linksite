@@ -228,7 +228,9 @@ bug merely because it is documented.
 
 `README.md` is the canonical user guide. The active documentation workflow
 converts it to `_site/index.html` using `davorg/readme-to-index`, then deploys
-that artifact. It watches README changes. `docs/index.md`, `_config.yml`,
+that artifact. It runs on README changes pushed to `main` or a manual run
+on `main`. Pull requests do not trigger it, and manual runs on other branches
+skip the deployment job. `docs/index.md`, `_config.yml`,
 and `CNAME` belong to the older Jekyll arrangement; `docs/README.md` points
 readers to the canonical guide instead of maintaining a second copy.
 The consumer workflow in `example/build.yml` deploys generated link pages

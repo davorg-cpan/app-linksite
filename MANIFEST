@@ -17,6 +17,8 @@ README.md
 src/css/style.css
 src/index.html.tt
 t/basic.t
+t/file-parameter-isolation.t
+t/file-parameter.t
 t/link.t
 t/links.json
 t/site.t

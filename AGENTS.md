@@ -27,8 +27,8 @@ requirement. Object::Pad is part of the compatibility setup.
 
 From the repository root, run `prove -Ilib -v t` and `git diff --check`.
 For a fresh dependency setup, use the commands in CONTRIBUTING.md.
-The baseline suite has six files and 38 assertions; `t/basic.t` has a TODO
-source-directory check that may fail without failing the suite.
+`t/basic.t` has a TODO source-directory check that may fail without failing
+the suite.
 
 The suite mostly checks constructors and readers. For CLI, template, or copy
 changes, also exercise the affected behavior in a temporary directory and
@@ -40,8 +40,9 @@ checkout even with `-Ilib`. CONTRIBUTING.md contains a complete recipe.
 
 - The default output is `docs/`, which contains tracked documentation in
   this repository. Use a temporary `out` when exercising generation.
-- `t/file-parameter.t` overwrites and deletes a root-level `links.json`.
-  Check for personal input there before running tests.
+- Keep test inputs and outputs in temporary directories. The default-file
+  test restores its working directory even on exceptions; its isolation
+  regression checks that a caller's existing `links.json` is preserved.
 - Image and `CNAME` inputs are relative to the working directory, regardless
   of the JSON file's location. Use content fixtures in a temporary directory.
 - Output includes the original JSON and is not cleaned between builds.

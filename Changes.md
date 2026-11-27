@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Fixed
+
+- Isolate the default input-file test in a temporary directory so running
+  the test suite preserves an existing `links.json` (#31).
+
 ## [0.1.3] - 2026-08-17
 
 ### Fixed

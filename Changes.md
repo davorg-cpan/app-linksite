@@ -1,9 +1,11 @@
 # Change Log
 
-## Unreleased
+## [0.2.0] - 2026-11-27
 
 ### Added
 
+- Document configuration, development and coding-agent workflows, packaging,
+  and the Semantic Versioning policy.
 - Add opt-in UTM parameters for content links, with configurable defaults,
   title-slug defaults for `utm_content`, global and per-link settings, and
   per-link opt-out. Preserve existing query parameters, fragments, canonical

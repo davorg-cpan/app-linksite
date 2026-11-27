@@ -54,7 +54,7 @@ before running Makefile.PL. Regenerate this metadata from Makefile.PL when
 dependencies or the release version change: run `make distmeta`, then copy
 `META.json` from the generated distribution directory back to the repository
 root. The directory name includes the current version, for example
-`App-LinkSite-0.1.3/`.
+`App-LinkSite-0.2.0/`.
 
 `t/prerequisites.t` configures a fresh temporary distribution and checks
 that generated metadata retains the required modules and minimum versions,

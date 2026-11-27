@@ -105,7 +105,10 @@ multiline `perl -e` arguments do not execute reliably on Windows.
 Construction can fail before `run` because JSON loading and object creation
 happen in `ADJUST`. A failure during rendering or copying can leave partial
 output. Builds overwrite matching files but do not clean obsolete files.
-There is no schema validator or general HTML-escaping layer.
+There is no schema validator or general HTML-escaping layer. Open Graph and
+page-description metadata attributes use HTML escaping with double quotes;
+the visible description still accepts simple HTML and converts newlines to
+`<br>`. Metadata retains description markup as text rather than rendering it.
 
 ### Constructor and path behavior
 
@@ -193,6 +196,11 @@ matching basenames in different directories, final-suffix removal, and
 unchanged copying of text/binary assets and input JSON.
 Its template fixtures use raw writes for consistent LF line endings across
 platforms; Template Toolkit reads template bytes without newline conversion.
+`t/metadata.t` renders the checkout's page template in memory and checks
+metadata attribute escaping for apostrophes, double quotes, ampersands, and
+markup, alongside the visible description's HTML and newline handling.
+It accepts literal or entity-encoded apostrophes across Template Toolkit
+versions; both are valid inside double-quoted attributes.
 Most social URL patterns and detailed HTML rendering remain untested; a
 passing suite alone will not catch every template regression.
 

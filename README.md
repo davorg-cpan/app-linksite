@@ -295,8 +295,14 @@ Setting `site_url` alone does not change asset paths.
 
 The input JSON is copied into the published directory under its original
 basename. Keep credentials and other private data out of it. Input values
-are inserted into HTML without general escaping or sanitization, so use
-content you trust and review the generated page when including HTML or quotes.
+in Open Graph and page-description metadata attributes are HTML-escaped.
+The visible profile description still supports simple HTML and converts
+newlines to line breaks. Other rendered fields have no general escaping or
+sanitization, so use content you trust and review the generated page when
+including HTML or quotes.
+
+The metadata correction is currently unreleased. Release 0.1.3 does not
+escape these attributes, so apostrophes or quotes can truncate metadata.
 
 The GA4 loader correction is currently unreleased. Release 0.1.3 uses a
 hard-coded measurement ID in the script URL; customize that release's

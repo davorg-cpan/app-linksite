@@ -4,6 +4,9 @@
 
 ### Fixed
 
+- Escape Open Graph and page-description metadata attributes so names and
+  descriptions containing quotes or ampersands remain intact. Preserve HTML
+  in the visible description (#32).
 - Include the section test and sectioned configuration example in CPAN
   distributions (#30).
 - Preserve relative directories when rendering templates, avoiding output

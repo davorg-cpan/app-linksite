@@ -4,6 +4,8 @@
 
 ### Fixed
 
+- Use the configured GA4 measurement ID in both the Google tag loader URL
+  and configuration call; cover configured and disabled analytics (#27).
 - Deploy the documentation site only from `main`, skipping feature-branch
   manual runs and removing deployments on pull requests.
 - Honor the CLI `--file` option, including filenames such as `0`, and stop

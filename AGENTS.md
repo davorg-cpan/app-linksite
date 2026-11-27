@@ -44,8 +44,9 @@ the suite.
 
 The suite checks constructors/readers and end-to-end CLI builds in temporary
 directories. `t/cli.t` covers file selection, help/version, and option errors
-using the checkout's templates. For template or copy changes, also inspect
-output. Source-template smoke builds must pass an explicit absolute
+using the checkout's templates. `t/analytics.t` checks rendered GA4 IDs and
+disabled analytics. For template or copy changes, also inspect output.
+Source-template smoke builds must pass an explicit absolute
 `src`; installed File::ShareDir assets otherwise take precedence over the
 checkout even with `-Ilib`. CONTRIBUTING.md contains a complete recipe.
 
@@ -80,10 +81,10 @@ checkout even with `-Ilib`. CONTRIBUTING.md contains a complete recipe.
   rendering or escaping.
 
 Known issues are recorded in CONTRIBUTING.md: assets use root-relative URLs,
-GA4 has a hard-coded loader ID, the consumer workflow has a `branchs` typo,
-and the distribution manifest omits some existing tests/examples. Do not
-mistake those limitations for working
-features. Fix them when in scope and update their documentation and coverage.
+the consumer workflow has a `branchs` typo, and the distribution manifest
+omits some existing tests/examples. Do not mistake those limitations for
+working features. Fix them when in scope and update their documentation and
+coverage.
 
 ## Keep documentation and packaging aligned
 

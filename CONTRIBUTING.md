@@ -184,6 +184,9 @@ including paths with spaces and the filename `0`. It checks rendered input,
 CSS, and the published JSON, along with help/version behavior and option
 errors. Its temporary runner selects the checkout's templates through
 File::ShareDir so an installed distribution cannot mask template changes.
+`t/analytics.t` builds pages with explicit checkout templates and temporary
+inputs/outputs. It checks that the GA4 loader and configuration use the same
+supplied ID, and that omitted, empty, or null IDs emit no analytics code.
 Most social URL patterns and detailed HTML rendering remain untested; a
 passing suite alone will not catch every template regression.
 
@@ -210,8 +213,6 @@ These describe the checked-in implementation, rather than intended behavior:
   needs template changes. `site_url` is only used for Open Graph metadata;
   it is not inferred or normalized, and its image URL concatenation needs
   a trailing `/`.
-- The GA4 loader URL has a hard-coded measurement ID while its configuration
-  uses the input's `ga4` value.
 - The consumer workflow spells `branches` as `branchs`, and its path filter
   omits images and `CNAME`.
 - The social fixture uses `service => 'twitter'` with an explicit URL and

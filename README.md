@@ -88,7 +88,7 @@ entries; for a site containing only sections, use `links: []`.
 | `og_image` | Social sharing image filename inside `img/`. Use `""` or omit it for no image. |
 | `text_color` | Optional CSS color, for example `"#222222"`. Default body text is black. |
 | `background_color` | Optional CSS color, for example `"#fafafa"`. Default body background is white. |
-| `ga4` | Optional Google Analytics measurement ID. Omit it to leave out analytics. See the limitation below. |
+| `ga4` | Optional Google Analytics measurement ID, such as `G-EXAMPLE123`. Used for both the tag loader and configuration. Omit it or use an empty string to leave out analytics. |
 
 Color settings apply to the body; Bootstrap components and social icons have
 their own styles.
@@ -279,9 +279,9 @@ basename. Keep credentials and other private data out of it. Input values
 are inserted into HTML without general escaping or sanitization, so use
 content you trust and review the generated page when including HTML or quotes.
 
-When `ga4` is set, the template uses that value in `gtag('config', ...)` but
-the script URL still contains the author's hard-coded measurement ID. Check
-or customize the template before relying on analytics.
+The GA4 loader correction is currently unreleased. Release 0.1.3 uses a
+hard-coded measurement ID in the script URL; customize that release's
+template before relying on analytics.
 
 App::LinkSite uses Semantic Versioning (SemVer), with release numbers in
 `MAJOR.MINOR.PATCH` form. See the

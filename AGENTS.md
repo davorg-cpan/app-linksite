@@ -90,6 +90,8 @@ features. Fix them when in scope and update their documentation and coverage.
 `README.md` is the canonical user guide and the source for the active
 documentation website. `docs/README.md` points to it. The documentation
 workflow and `example/build.yml` deploy different things.
+The documentation workflow deploys only from `main`; keep pull requests and
+manual runs on other branches from deploying to Pages.
 
 Update examples and user docs for configuration or CLI changes. Update
 `Changes.md` for behavior changes. Declare dependencies in `Makefile.PL`

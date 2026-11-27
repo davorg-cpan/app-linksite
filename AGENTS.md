@@ -80,5 +80,9 @@ workflow and `example/build.yml` deploy different things.
 Update examples and user docs for configuration or CLI changes. Update
 `Changes.md` for behavior changes. Keep dependencies consistent between
 `cpanfile` and `Makefile.PL`, and include new distribution files in `MANIFEST`.
-Versions live in the main module and all four model modules; do not bump
-them merely for routine documentation work.
+Follow Semantic Versioning (SemVer), using `MAJOR.MINOR.PATCH`. Assess changes
+to the documented JSON format, CLI, and public Perl API using the
+[versioning policy](CONTRIBUTING.md#versioning), including its `0.x.y` caveat.
+Keep version declarations in the main module and all four model modules
+aligned when preparing a release; do not bump them merely for routine
+documentation work.

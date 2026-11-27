@@ -208,10 +208,8 @@ readers to the canonical guide instead of maintaining a second copy.
 The consumer workflow in `example/build.yml` deploys generated link pages
 and is separate from this repository's documentation workflow.
 
-Update `Changes.md` for behavior changes. `VERSION_FROM` in `Makefile.PL`
-points at `lib/App/LinkSite.pm`; the model modules also declare versions.
-Coordinate those declarations during releases. Keep `MANIFEST` current for
-files that must ship. Use `make distcheck` to review its warnings and inspect
+Keep `MANIFEST` current for files that must ship. Use `make distcheck` to
+review its warnings and inspect
 the archive if preparing a release; repository-only CI and docs files may
 intentionally be excluded.
 
@@ -219,3 +217,27 @@ See [docker/README.md](docker/README.md) for the container workflow. The
 Dockerfile installs a version from CPAN, not the checkout. `docker/build`
 publishes images to Docker Hub, so it is a release operation rather than a
 local verification command.
+
+### Versioning
+
+App::LinkSite follows Semantic Versioning (SemVer): `MAJOR.MINOR.PATCH`.
+Assess compatibility across the documented JSON configuration format, CLI,
+and public Perl API when choosing a release version.
+
+For stable releases (`1.0.0` and later):
+
+- Increment `MAJOR` for incompatible public interface changes, resetting
+  `MINOR` and `PATCH` to zero.
+- Increment `MINOR` for backward-compatible functionality or deprecation of
+  public functionality, resetting `PATCH` to zero.
+- Increment `PATCH` for backward-compatible bug fixes.
+
+The current `0.x.y` series is initial development under SemVer: the public
+API is not yet considered stable and compatibility is not guaranteed.
+Describe breaking changes and any migration steps explicitly in `Changes.md`.
+
+Record release changes in `Changes.md`. `VERSION_FROM` in `Makefile.PL`
+points at `lib/App/LinkSite.pm`; all four model modules also declare versions.
+Keep all five declarations aligned when preparing a release. Do not change
+an already published version's contents; publish a new version instead.
+Routine documentation edits do not require a version bump on their own.

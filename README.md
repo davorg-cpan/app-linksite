@@ -276,6 +276,11 @@ When `ga4` is set, the template uses that value in `gtag('config', ...)` but
 the script URL still contains the author's hard-coded measurement ID. Check
 or customize the template before relying on analytics.
 
+App::LinkSite uses Semantic Versioning (SemVer), with release numbers in
+`MAJOR.MINOR.PATCH` form. See the
+[versioning policy](https://github.com/davorg-cpan/app-linksite/blob/main/CONTRIBUTING.md#versioning)
+for release and compatibility guidance.
+
 App::LinkSite is free software under the same terms as Perl itself. Changes
 are listed in
 [Changes.md](https://github.com/davorg-cpan/app-linksite/blob/main/Changes.md).

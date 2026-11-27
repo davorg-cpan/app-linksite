@@ -29,6 +29,8 @@ Windows CI uses Strawberry Perl's bundled toolchain and the make program
 reported by Perl's Config. Keep all supported versions in the matrix and
 preserve independent failure logs. The setup action's module cache is
 disabled because this distribution has no cpanfile to key it on.
+Use temporary script files for subprocess test helpers instead of multiline
+`perl -e` arguments, and check that child tests actually emit a test plan.
 
 ## Verify changes
 

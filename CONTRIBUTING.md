@@ -79,6 +79,8 @@ the make program reported by Perl's Config, supporting both dmake and gmake.
 Fail-fast is disabled for these jobs so all eight Perl versions finish.
 Failed installations upload version-specific CPAN build logs from
 `PERL_CPANM_HOME`. Linux and macOS continue using the shared test workflow.
+Subprocess-based tests write their helper programs to temporary scripts;
+multiline `perl -e` arguments do not execute reliably on Windows.
 
 ## Build lifecycle
 

@@ -26,3 +26,4 @@ t/links.json
 t/prerequisites.t
 t/site.t
 t/social.t
+t/template-paths.t

@@ -4,6 +4,9 @@
 
 ### Fixed
 
+- Preserve relative directories when rendering templates, avoiding output
+  collisions between matching basenames. Treat directories ending in `.tt`
+  as directories rather than template files (#33).
 - Correct the sample deployment workflow's `branches` filter and rebuild
   for image or `CNAME` changes; skip manual deployments from other branches
   (#28).

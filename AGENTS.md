@@ -45,7 +45,8 @@ the suite.
 The suite checks constructors/readers and end-to-end CLI builds in temporary
 directories. `t/cli.t` covers file selection, help/version, and option errors
 using the checkout's templates. `t/analytics.t` checks rendered GA4 IDs and
-disabled analytics. For template or copy changes, also inspect output.
+disabled analytics. `t/template-paths.t` checks nested template output and
+asset copying. For template or copy changes, also inspect output.
 Source-template smoke builds must pass an explicit absolute
 `src`; installed File::ShareDir assets otherwise take precedence over the
 checkout even with `-Ilib`. CONTRIBUTING.md contains a complete recipe.
@@ -74,8 +75,9 @@ checkout even with `-Ilib`. CONTRIBUTING.md contains a complete recipe.
   appear under “Other links”; otherwise the display is a flat list.
 - `Site::all_links` returns a list with top-level links first, followed by
   section links, and feeds JSON-LD's `relatedLink`.
-- Template files lose `.tt` and render under their basename at the output
-  root; ordinary assets keep their relative paths.
+- Template files lose only the final `.tt` suffix and retain their path
+  relative to `src`; ordinary assets retain their relative paths too.
+  Directories ending in `.tt` remain directories.
 - JSON input is trusted and HTML is not generally escaped. Review effects
   on descriptions, link fragments, attributes, and JSON-LD when changing
   rendering or escaping.
